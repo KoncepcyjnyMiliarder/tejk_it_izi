@@ -1,7 +1,7 @@
 #include <fake_net_session.hpp>
 #include <algorithm>
 
-fake_net_session::fake_net_session(std::shared_ptr<net_socket> sock)
+fake_net_session::fake_net_session(std::shared_ptr<fake_net_socket> sock)
   : net_session(sock)
 {
   do_recv();
@@ -19,4 +19,9 @@ void fake_net_session::on_error()
 void fake_net_session::force_close()
 {
   my_sock_->force_close();
+}
+
+std::shared_ptr<fake_net_socket> fake_net_session::get_sock()
+{
+  return sock_;
 }
