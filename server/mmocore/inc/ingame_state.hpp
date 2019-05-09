@@ -1,39 +1,31 @@
 #pragma once
 
 #include <state_transitioner.hpp>
-#include <world.hpp>
-#include <logger.hpp>
-#include <net_session.hpp>
-#include <database_facade.hpp>
 #include <ingame_state_recv_packet_factory.hpp>
 #include <s2c/moved_to_lobby.hpp>
 
 class ingame_state :
   public client_state
 {
+    //now this little class is interesting, a consequence of the client_state design
+    //it's only purpose is to be destroyed last, and in turn send the final log-off packet
+    //maybe move it to other place soon
     struct finalizer
     {
-      ingame_state& this_;
-      finalizer(ingame_state& t)
-        : this_(t) {}
+      std::shared_ptr<net_session> my_session_;
+      finalizer(std::shared_ptr<net_session> my_session)
+        : my_session_(my_session) {}
       ~finalizer()
       {
         net_socket::buffer buffer;
         auto len = ingame_packet_constructors::moved_to_lobby(buffer);
-        this_.my_session_->send_to_client(buffer, len);
+        my_session_->send_to_client(buffer, len);
       }
     };
 
     state_transitioner& transitioner_;
-    std::shared_ptr<net_session> my_session_;
     finalizer fin_;
-    world& world_;
-    logger& logger_;
-    database_facade& db_;
-    world::player_pawn my_pawn_;
-    account_data acc_data_;
-    std::list<std::unique_ptr<world::chat_system::chat_pressence_token>> chatrooms_im_in_;
-
+    user_environment my_environment_;
     ingame_state_recv_packet_factory recv_factory_;
 
   public:

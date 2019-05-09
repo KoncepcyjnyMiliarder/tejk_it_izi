@@ -14,8 +14,4 @@ set(TESTS
 )
 
 add_executable(${PROJECT_NAME}_ut ${TESTS})
-target_link_libraries(${PROJECT_NAME}_ut PRIVATE ${PROJECT_NAME} gtest gmock gmock_main
-  database_facade_mocks
-  net_core_mocks
-  utils_mocks
-)
+target_link_libraries(${PROJECT_NAME}_ut PRIVATE ${PROJECT_NAME} world_mocks)

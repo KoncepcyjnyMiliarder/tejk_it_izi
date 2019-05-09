@@ -84,7 +84,7 @@ TEST(binary_deserializer, empty_string)
 
 TEST(binary_deserializer, serialzie_two_strings)
 {
-  std::string data("\x08\x00\x00\x00""dupadupa""\x0A\x00\x00\x00""something33", 26);
+  std::string data("\x08\x00\x00\x00""dupadupa""\x0B\x00\x00\x00""something33", 27);
   binary_deserializer bd(data);
   std::string dupadupa, something;
   EXPECT_NO_THROW(bd >> dupadupa);
@@ -95,7 +95,7 @@ TEST(binary_deserializer, serialzie_two_strings)
 
 TEST(binary_deserializer, serialzie_text_with_pods)
 {
-  std::string data("\x08\x00\x00\x00""dupadupa""\x01\x02\x03\x04\x05""\x0A\x00\x00\x00""something33USELESS_DATA", 43);
+  std::string data("\x08\x00\x00\x00""dupadupa""\x01\x02\x03\x04\x05""\x0B\x00\x00\x00""something33USELESS_DATA", 46);
   binary_deserializer bd(data);
   std::string dupadupa, something;
   int a;
