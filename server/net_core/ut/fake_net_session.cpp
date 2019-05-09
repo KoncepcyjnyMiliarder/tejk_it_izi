@@ -2,7 +2,8 @@
 #include <algorithm>
 
 fake_net_session::fake_net_session(std::shared_ptr<fake_net_socket> sock)
-  : net_session(sock)
+  : net_session(sock),
+    sock_(sock)
 {
   do_recv();
 }

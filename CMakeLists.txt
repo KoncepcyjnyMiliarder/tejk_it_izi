@@ -23,13 +23,14 @@ set(FETCHCONTENT_UPDATES_DISCONNECTED ON CACHE BOOL "dont update 3rd party libs"
 FetchContent_Declare(
   googletest
   GIT_REPOSITORY https://github.com/google/googletest.git
-  GIT_TAG        6.4.4 #later versions force c++17
+  GIT_TAG        release-1.8.0
 )
+
 
 FetchContent_Declare(
   libpqxx
   GIT_REPOSITORY https://github.com/jtv/libpqxx.git
-  GIT_TAG 
+  GIT_TAG        6.4.4 #later versions force c++17
 )
 
 FetchContent_GetProperties(googletest)
