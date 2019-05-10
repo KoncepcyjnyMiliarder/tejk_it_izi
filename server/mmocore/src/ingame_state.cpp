@@ -1,10 +1,10 @@
 #include <ingame_state.hpp>
 
 ingame_state::ingame_state(state_transitioner& transitioner, std::shared_ptr<net_session> my_session, world& universe,
-                           logger& logger, std::string selected_character_name, database_facade& db, account_data acc_data)
+                           logger& logger, const lobby_character& selected_char, database_facade& db, account_data acc_data)
   : transitioner_(transitioner),
     fin_(my_session),
-    my_environment_(my_session, universe.chat_, selected_character_name, logger, universe, db, acc_data),
+    my_environment_(my_session, universe, selected_char, logger, db, acc_data),
     recv_factory_(transitioner_, my_environment_)
 {
 }

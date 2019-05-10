@@ -5,13 +5,22 @@ project(world)
 set(SOURCES
   src/world.cpp
   src/chat_participant.cpp
+  src/friend_list.cpp
+  src/friend_system.cpp
+  src/tii_player_character.cpp
+  src/friendlist_backend.cpp
 )
 
 set(INCLUDES
+  inc/world_registrar.hpp
   inc/world.hpp
   inc/chat_system.hpp
   inc/chat_participant.hpp
   inc/user_environment.hpp
+  inc/friend_list.hpp
+  inc/friend_system.hpp
+  inc/tii_player_character.hpp
+  inc/friendlist_backend.hpp
 )
 
 SOURCE_GROUP(${PROJECT_NAME} FILES ${SOURCES} ${INCLUDES})

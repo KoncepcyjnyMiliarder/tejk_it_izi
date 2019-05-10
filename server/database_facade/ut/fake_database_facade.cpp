@@ -14,6 +14,12 @@ fake_database_facade::fake_database_facade()
   account_to_chars_[2].emplace_back(4, "Tag");
   account_to_chars_[2].emplace_back(5, "JohnFreeman");
   account_to_chars_[3].emplace_back(6, "foobar");
+
+  account_to_friends_[1] = { 3, 4, 6 };
+  account_to_friends_[2] = { 4 };
+  account_to_friends_[3] = { 1 };
+  account_to_friends_[4] = { 1, 2 };
+  account_to_friends_[6] = { 1 };
 }
 
 lobby_character::lobby_character_list fake_database_facade::get_lobby_chars(unsigned account_uid)
@@ -56,4 +62,23 @@ lobby_character fake_database_facade::create_character(const std::string& nickna
 account_data fake_database_facade::get_account_data(const std::string& login)
 {
   return acc_datas_.at(login);
+}
+
+std::unordered_set<unsigned> fake_database_facade::get_friends_of(unsigned char_id)
+{
+  if (account_to_friends_.count(char_id))
+    return account_to_friends_.at(char_id);
+  return {};
+}
+
+void fake_database_facade::make_friends(unsigned one, unsigned other)
+{
+  account_to_friends_[one].insert(other);
+  account_to_friends_[other].insert(one);
+}
+
+void fake_database_facade::remove_friends(unsigned one, unsigned other)
+{
+  account_to_friends_.at(one).erase(other);
+  account_to_friends_.at(other).erase(one);
 }

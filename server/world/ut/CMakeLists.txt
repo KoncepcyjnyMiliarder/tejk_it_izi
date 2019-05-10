@@ -4,6 +4,7 @@ project(world)
 
 set(MOCKS
   fake_user_environment.hpp
+  mock_friend_component.hpp
   fake_user_environment.cpp
 )
 

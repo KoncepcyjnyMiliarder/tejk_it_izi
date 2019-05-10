@@ -31,7 +31,7 @@ class ingame_state :
   public:
 
     ingame_state(state_transitioner& transitioner, std::shared_ptr<net_session> my_session, world& universe,
-                 logger& logger, std::string selected_character_name, database_facade& db, account_data acc_data);
+                 logger& logger, const lobby_character& selected_char, database_facade& db, account_data acc_data);
     ~ingame_state();
 
     virtual void handle_network_packet(const std::array<char, 2048>& data, unsigned len) override;

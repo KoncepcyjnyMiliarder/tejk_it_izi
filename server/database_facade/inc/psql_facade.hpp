@@ -17,4 +17,7 @@ class psql_facade
     virtual bool is_nickname_already_taken(const std::string& nickname)  override;
     virtual lobby_character create_character(const std::string& nickname, unsigned owner_acc_id) override;
     virtual account_data get_account_data(const std::string& login) override;
+    virtual std::unordered_set<unsigned> get_friends_of(unsigned char_id) override;
+    virtual void make_friends(unsigned one, unsigned other) override;
+    virtual void remove_friends(unsigned one, unsigned other) override;
 };

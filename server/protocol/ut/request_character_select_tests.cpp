@@ -22,7 +22,7 @@ TEST(request_character_select, construction)
   state_transitioner transitioner;
   fake_logger log;
   fake_database_facade db;
-  world universe;
+  world universe(db);
   account_data acc_data = db.get_account_data("krzysztof");
   lobby_character::lobby_character_list lobby_chars = db.get_lobby_chars(acc_data.uid);
   EXPECT_NO_THROW(request_character_select(incoming_stream, session, transitioner, universe, log, lobby_chars, db, acc_data));
@@ -39,7 +39,7 @@ TEST(request_character_select, throw_on_missing_nickname)
   state_transitioner transitioner;
   fake_logger log;
   fake_database_facade db;
-  world universe;
+  world universe(db);
   account_data acc_data = db.get_account_data("krzysztof");
   lobby_character::lobby_character_list lobby_chars = db.get_lobby_chars(acc_data.uid);
   EXPECT_THROW(request_character_select(incoming_stream, session, transitioner, universe, log, lobby_chars, db, acc_data), std::underflow_error);
@@ -56,7 +56,7 @@ TEST(request_character_select, send_char_selected_packet)
   state_transitioner transitioner;
   fake_logger log;
   fake_database_facade db;
-  world universe;
+  world universe(db);
   account_data acc_data = db.get_account_data("krzysztof");
   lobby_character::lobby_character_list lobby_chars = db.get_lobby_chars(acc_data.uid);
   request_character_select(incoming_stream, session, transitioner, universe, log, lobby_chars, db, acc_data).execute_associated_action();

@@ -54,6 +54,7 @@ set(INCLUDES
   inc/lobby_state_protocol.hpp
   inc/ingame_state_recv_packet_factory.hpp
   inc/ingame_state_protocol.hpp
+  inc/friend_system_error_codes.hpp
 )
 
 SOURCE_GROUP(${PROJECT_NAME} FILES ${SOURCES} ${INCLUDES})

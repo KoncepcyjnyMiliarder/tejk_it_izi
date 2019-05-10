@@ -3,7 +3,8 @@
 
 tejk_it_izi::tejk_it_izi(database_facade& db, std::unique_ptr<client_acceptor> acceptor)
   : db_(db),
-    acceptor_(std::move(acceptor))
+    acceptor_(std::move(acceptor)),
+    universe_(db)
 {
   acceptor_->async_accept(*this);
 }

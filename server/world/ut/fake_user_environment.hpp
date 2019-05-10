@@ -12,6 +12,8 @@ struct fake_user_environment
   fake_database_facade db;
   world unvierse;
 
+  fake_user_environment();
+
   using env_session_pair = std::pair<std::unique_ptr<user_environment>, std::shared_ptr<fake_net_session>>;
   env_session_pair make_env(const std::string& account_login, const std::string& character_nickname);
 };

@@ -60,3 +60,34 @@ account_data psql_facade::get_account_data(const std::string& login)
   access_query.empty() ? res.access_level = 0 : access_query[0][0].to(res.access_level);
   return res;
 }
+
+std::unordered_set<unsigned> psql_facade::get_friends_of(unsigned char_id)
+{
+  pqxx::work w(database_.get_conn());
+  pqxx::result query_res(w.exec("SELECT character_id as id FROM character_friends WHERE his_friend_id = " + std::to_string(char_id) + " UNION "
+                                "SELECT his_friend_id as id FROM character_friends WHERE character_id = " + std::to_string(char_id)));
+  std::unordered_set<unsigned> res;
+  for (const auto& row : query_res)
+    res.emplace(row[0].as(unsigned()));
+  return res;
+}
+
+void psql_facade::make_friends(unsigned one, unsigned other)
+{
+  if (one > other)
+    std::swap(one, other);
+  pqxx::work w(database_.get_conn());
+  pqxx::result query_res(w.exec("INSERT INTO character_friends(character_id, his_friend_id) VALUES (" + std::to_string(one) +
+                                ", " + std::to_string(other) + ")"));
+  w.commit();
+}
+
+void psql_facade::remove_friends(unsigned one, unsigned other)
+{
+  if (one > other)
+    std::swap(one, other);
+  pqxx::work w(database_.get_conn());
+  pqxx::result query_res(w.exec("DELETE FROM character_friends WHERE character_id = " + std::to_string(one) +
+                                " AND his_friend_id = " + std::to_string(other)));
+  w.commit();
+}

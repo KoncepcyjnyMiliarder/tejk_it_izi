@@ -4,10 +4,12 @@ project(controllers)
 
 set(SOURCES
   src/chat_controller.cpp
+  src/friends_controller.cpp  
 )
 
 set(INCLUDES
   inc/chat_controller.hpp
+  inc/friends_controller.hpp
 )
 
 SOURCE_GROUP(${PROJECT_NAME} FILES ${SOURCES} ${INCLUDES})

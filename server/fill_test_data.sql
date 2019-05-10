@@ -40,12 +40,9 @@ SELECT id, '127.0.0.1', now() FROM accounts WHERE login = 'krzysztof';
 INSERT INTO account_access(account_id, ip, access_time)
 SELECT id, '192.168.12.34', TO_TIMESTAMP(1554125026) FROM accounts WHERE login = 'foo';
 
+--first is ALWAYS smaller
 INSERT INTO character_friends(character_id, his_friend_id) VALUES
 (1, 3),
 (1, 4),
 (1, 6),
-(2, 4),
-(3, 1),
-(3, 6),
-(5, 2),
-(6, 1);
+(2, 4);
