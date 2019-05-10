@@ -12,7 +12,7 @@ TEST(send_chat_msg, construction)
   bs << std::string("czekoladowa wysepka") << std::string("no eloszki pysiaczki");
   binary_deserializer incoming_stream(buf.data(), bs.get_current_size());
   fake_user_environment env;
-  auto pair_of_mocks = env.make_env("krzysztof", "Krzysztof");
+  auto pair_of_mocks = env.make_env("krzysztof", "KoncepcyjnyMiliarder");
   user_environment& my_env = *pair_of_mocks.first;
   std::shared_ptr<fake_net_session> my_session = pair_of_mocks.second;
 
@@ -26,7 +26,7 @@ TEST(send_chat_msg, throw_on_packet_underflow)
   bs << std::string("some_room_name"); // didnt send message
   binary_deserializer incoming_stream(buf.data(), bs.get_current_size());
   fake_user_environment env;
-  auto pair_of_mocks = env.make_env("krzysztof", "Krzysztof");
+  auto pair_of_mocks = env.make_env("krzysztof", "KoncepcyjnyMiliarder");
   user_environment& my_env = *pair_of_mocks.first;
   std::shared_ptr<fake_net_session> my_session = pair_of_mocks.second;
 
@@ -42,11 +42,11 @@ TEST(send_chat_msg, send_message_to_all_participants)
 
   fake_user_environment env;
 
-  auto my_pair_of_mocks = env.make_env("krzysztof", "Krzysztof");
+  auto my_pair_of_mocks = env.make_env("krzysztof", "KoncepcyjnyMiliarder");
   user_environment& my_env = *my_pair_of_mocks.first;
   std::shared_ptr<fake_net_session> my_session = my_pair_of_mocks.second;
 
-  auto other_pair_of_mocks = env.make_env("foo", "Someone_else");
+  auto other_pair_of_mocks = env.make_env("foo", "foobar");
   user_environment& other_env = *other_pair_of_mocks.first;
   std::shared_ptr<fake_net_session> other_session = other_pair_of_mocks.second;
 
@@ -66,7 +66,7 @@ TEST(send_chat_msg, send_message_to_all_participants)
   bd >> opcode >> chatroom >> user >> msg;
   EXPECT_EQ(ingame_state_protocol::to_client_packet_opcodes::chat_msg, opcode);
   EXPECT_EQ("czekoladowa wysepka", chatroom);
-  EXPECT_EQ("Krzysztof", user);
+  EXPECT_EQ("KoncepcyjnyMiliarder", user);
   EXPECT_EQ("no eloszki pysiaczki", msg);
 
 }

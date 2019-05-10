@@ -12,7 +12,7 @@ TEST(leave_chat, construction)
   bs << std::string("some_room_name");
   binary_deserializer incoming_stream(buf.data(), bs.get_current_size());
   fake_user_environment env;
-  auto pair_of_mocks = env.make_env("krzysztof", "Krzysztof");
+  auto pair_of_mocks = env.make_env("krzysztof", "KoncepcyjnyMiliarder");
   user_environment& my_env = *pair_of_mocks.first;
   std::shared_ptr<fake_net_session> my_session = pair_of_mocks.second;
 
@@ -26,7 +26,7 @@ TEST(leave_chat, throw_on_packet_underflow)
   bs << 123;
   binary_deserializer incoming_stream(buf.data(), bs.get_current_size());
   fake_user_environment env;
-  auto pair_of_mocks = env.make_env("krzysztof", "Krzysztof");
+  auto pair_of_mocks = env.make_env("krzysztof", "KoncepcyjnyMiliarder");
   user_environment& my_env = *pair_of_mocks.first;
   std::shared_ptr<fake_net_session> my_session = pair_of_mocks.second;
 
@@ -36,7 +36,7 @@ TEST(leave_chat, throw_on_packet_underflow)
 TEST(leave_chat, world_state_after_executing_packet)
 {
   fake_user_environment env;
-  auto pair_of_mocks = env.make_env("krzysztof", "Krzysztof");
+  auto pair_of_mocks = env.make_env("krzysztof", "KoncepcyjnyMiliarder");
   user_environment& my_env = *pair_of_mocks.first;
   std::shared_ptr<fake_net_session> my_session = pair_of_mocks.second;
   auto& sock_queue = my_session->get_sock()->get_packets_sent_to_client();
@@ -69,7 +69,7 @@ TEST(leave_chat, world_state_after_executing_packet)
     bd >> opcode >> chatroom >> user;
     EXPECT_EQ(ingame_state_protocol::to_client_packet_opcodes::user_left_chat, opcode);
     EXPECT_EQ("some_room_name", chatroom);
-    EXPECT_EQ("Krzysztof", user);
+    EXPECT_EQ("KoncepcyjnyMiliarder", user);
     EXPECT_EQ(1, my_env.chat_controller_.count_of_chatrooms_im_in());
   }
   //leave "some_other_room"
@@ -84,7 +84,7 @@ TEST(leave_chat, world_state_after_executing_packet)
     bd >> opcode >> chatroom >> user;
     EXPECT_EQ(ingame_state_protocol::to_client_packet_opcodes::user_left_chat, opcode);
     EXPECT_EQ("some_other_room", chatroom);
-    EXPECT_EQ("Krzysztof", user);
+    EXPECT_EQ("KoncepcyjnyMiliarder", user);
     EXPECT_EQ(0, my_env.chat_controller_.count_of_chatrooms_im_in());
   }
 }

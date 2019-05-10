@@ -53,10 +53,10 @@ TEST(request_character_select, send_char_selected_packet)
   binary_deserializer incoming_stream(buf.data(), bs.get_current_size());
   auto socket = std::make_shared<fake_net_socket>();
   auto session(std::make_shared<fake_net_session>(socket));
-  state_transitioner transitioner;
   fake_logger log;
   fake_database_facade db;
   world universe(db);
+  state_transitioner transitioner;
   account_data acc_data = db.get_account_data("krzysztof");
   lobby_character::lobby_character_list lobby_chars = db.get_lobby_chars(acc_data.uid);
   request_character_select(incoming_stream, session, transitioner, universe, log, lobby_chars, db, acc_data).execute_associated_action();
