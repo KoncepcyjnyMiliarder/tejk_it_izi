@@ -18,7 +18,12 @@ chat_controller::~chat_controller()
 
 void chat_controller::register_me(const std::string& chatroom_name)
 {
-  chatrooms_im_in_.push_back(chat_sys_.register_participant(chatroom_name, my_representative_));
+  auto the_chatroom = std::find_if(chatrooms_im_in_.begin(), chatrooms_im_in_.end(), [&chatroom_name](const auto & elem)
+  {
+    return elem->room_name == chatroom_name;
+  });
+  if (the_chatroom == chatrooms_im_in_.end())
+    chatrooms_im_in_.push_back(chat_sys_.register_participant(chatroom_name, my_representative_));
 }
 
 void chat_controller::unregister_me(const std::string& chatroom_name)

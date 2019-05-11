@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <list>
+#include <algorithm>
 #include <cassert>
 
 template<typename ParticipantT>
@@ -54,8 +55,7 @@ struct chat_system_base
   chatroom_ptr register_participant(const std::string& channel_name, participant_reference participant)
   {
     chatroom& selected_channel = active_chatrooms.emplace(channel_name, chatroom(channel_name, *this)).first->second;
-    //check if he is already in the chat or allow multiple pressence lol?
-    //whatever for now
+    assert(std::find(selected_channel.participants.begin(), selected_channel.participants.end(), &participant) == selected_channel.participants.end());
     selected_channel.participants.push_back(&participant);
     for (auto& elem : selected_channel.participants)
       elem->on_user_joined_chat(channel_name, participant.user_name());
