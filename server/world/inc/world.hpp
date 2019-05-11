@@ -26,9 +26,9 @@ class world
 
   public:
 
-    using online_players_registrar = typename world_registrar<tii_player_character>;
-    using chat_system = typename chat_system<chat_participant>;
-    using friend_system = typename friend_system<online_players_registrar, friendlist_backend, realtime_clock>;
+    using online_players_registrar = world_registrar<tii_player_character>;
+    using chat_system = chat_system_base<chat_participant>;
+    using friend_system = friend_system_base<online_players_registrar, friendlist_backend, realtime_clock>;
 
     chat_system chat_;
     friend_system friends_;

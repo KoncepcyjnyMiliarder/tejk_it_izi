@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <algorithm>
 
-chat_controller::chat_controller(chat_system<chat_participant>& chat_sys,
+chat_controller::chat_controller(chat_system_base<chat_participant>& chat_sys,
                                  std::shared_ptr<net_session> my_session,
                                  const std::string& my_name)
   : chat_sys_(chat_sys),
@@ -29,7 +29,7 @@ void chat_controller::unregister_me(const std::string& chatroom_name)
   });
   if (the_chatroom == chatrooms_im_in_.end())
     return;
-  chat_system<chat_participant>::chatroom_ptr chatroom = *the_chatroom;
+  chat_system_base<chat_participant>::chatroom_ptr chatroom = *the_chatroom;
   chatroom->leave(my_representative_);
   chatrooms_im_in_.erase(the_chatroom);
 }
@@ -43,7 +43,7 @@ void chat_controller::broadcast_message(const std::string& chatroom_name, const 
 
   if (the_chatroom == chatrooms_im_in_.end())
     return;
-  chat_system<chat_participant>::chatroom_ptr chatroom = *the_chatroom;
+  chat_system_base<chat_participant>::chatroom_ptr chatroom = *the_chatroom;
   chatroom->broadcast_message(msg, my_representative_);
 }
 

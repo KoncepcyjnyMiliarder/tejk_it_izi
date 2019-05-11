@@ -35,12 +35,12 @@ struct pending_friend_add_request
 };
 
 template<typename WorldRegistrar, typename FriendlistBackend, typename RealtimeClock>
-struct friend_system
+struct friend_system_base
 {
-  using component_backend = typename FriendlistBackend;
+  using component_backend = FriendlistBackend;
   using representative_ref = typename component_backend::representative_ref;
-  using registrar = typename WorldRegistrar;
-  using realtime_clock = typename RealtimeClock;
+  using registrar = WorldRegistrar;
+  using realtime_clock = RealtimeClock;
 
   registrar& player_registry_;
   realtime_clock& clock_;
@@ -48,7 +48,7 @@ struct friend_system
 
   static constexpr unsigned request_expiration_time = 20000;
 
-  friend_system(registrar& online_player_registry, realtime_clock& clock, database_facade& db)
+  friend_system_base(registrar& online_player_registry, realtime_clock& clock, database_facade& db)
     : player_registry_(online_player_registry),
       clock_(clock),
       db_(db) {}

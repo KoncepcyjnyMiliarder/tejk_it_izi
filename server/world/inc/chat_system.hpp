@@ -7,7 +7,7 @@
 #include <cassert>
 
 template<typename ParticipantT>
-struct chat_system
+struct chat_system_base
 {
 
   using participant_ptr = typename ParticipantT::pointer;
@@ -19,9 +19,9 @@ struct chat_system
 
     const std::string room_name;
     std::list<participant_ptr> participants;
-    chat_system& the_system;
+    chat_system_base& the_system;
 
-    chatroom(const std::string& name, chat_system& the_system)
+    chatroom(const std::string& name, chat_system_base& the_system)
       : room_name(name), the_system(the_system) {}
 
     void broadcast_message(const std::string& msg, participant_reference participant)

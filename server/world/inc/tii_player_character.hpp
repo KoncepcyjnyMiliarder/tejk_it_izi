@@ -11,7 +11,7 @@ class tii_player_character
     using const_pointer = const tii_player_character*;
     using reference = tii_player_character&;
     using const_reference = const tii_player_character&;
-    using registrar_t = typename world_registrar<tii_player_character>;
+    using registrar_t = world_registrar<tii_player_character>;
 
   private:
 
