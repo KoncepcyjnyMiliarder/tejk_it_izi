@@ -7,6 +7,7 @@
 #include <binary_serializer.hpp>
 #include <binary_deserializer.hpp>
 #include <s2c/character_creation_fail.hpp>
+#include <friend_system_error_codes.hpp>
 
 /*
 The most naive and simple implementation of client
@@ -127,6 +128,96 @@ class my_recv_completion_handler
             bd >> opcode;
             switch (opcode)
             {
+              case ingame_state_protocol::to_client_packet_opcodes::friend_online_while_you_login:
+                {
+                  std::string username;
+                  bd >> username;
+                  printf("your friend %s is already in the game\n", username.c_str());
+                }
+                break;
+              case ingame_state_protocol::to_client_packet_opcodes::friend_login:
+                {
+                  std::string username;
+                  bd >> username;
+                  printf("your friend %s logged in, say hello!\n", username.c_str());
+                }
+                break;
+              case ingame_state_protocol::to_client_packet_opcodes::friend_leave:
+                {
+                  std::string username;
+                  bd >> username;
+                  printf("your friend %s logged off to breathe some fresh air\n", username.c_str());
+                }
+                break;
+              case ingame_state_protocol::to_client_packet_opcodes::new_friendship:
+                {
+                  std::string username;
+                  bd >> username;
+                  printf("%s and you have become friends, hurray :)\n", username.c_str());
+                }
+                break;
+              case ingame_state_protocol::to_client_packet_opcodes::broken_friendship:
+                {
+                  std::string username;
+                  bd >> username;
+                  printf("%s have shown you the middle finger\n", username.c_str());
+                }
+                break;
+              case ingame_state_protocol::to_client_packet_opcodes::friendship_request:
+                {
+                  std::string username;
+                  bd >> username;
+                  printf("%s wants to be your friend, reply, quick! :3\n", username.c_str());
+                }
+                break;
+              case ingame_state_protocol::to_client_packet_opcodes::friend_removal_fail:
+                {
+                  std::string username;
+                  bd >> username;
+                  printf("Failed to remove %s from friendlist, you sure you are friends?\n", username.c_str());
+                }
+                break;
+              case ingame_state_protocol::to_client_packet_opcodes::friend_add_fail:
+                {
+                  friend_add_fail_reason reason;
+                  std::string username;
+                  bd >> reason >> username;
+                  switch (reason)
+                  {
+                    case friend_add_fail_reason::player_not_online:
+                      printf("%s is not online, so you cant ask him\n", username.c_str());
+                      break;
+                    case friend_add_fail_reason::cannot_invite_self:
+                      printf("Fool, u cant invite yourself\n", username.c_str());
+                      break;
+                    case friend_add_fail_reason::already_friends:
+                      printf("You already are friends\n", username.c_str());
+                      break;
+                    default:
+                      printf("HUUH unknown friend_add_fail_reason for friend_add_fail %d\n", reason);
+                      break;
+                  }
+                }
+                break;
+              case ingame_state_protocol::to_client_packet_opcodes::friend_add_result:
+                {
+                  friend_add_request_result result;
+                  std::string username;
+                  bd >> result >> username;
+                  switch (result)
+                  {
+                    case friend_add_request_result::previous_still_waiting:
+                      printf("CHILL THE FUCK OUT, YOUR PREVIOUS REQUEST to %s IS STILL WAITIN FOR RESPONSE\n", username.c_str());
+                      break;
+                    case friend_add_request_result::sent_succesfully:
+                      printf("Your request to %s has been succesfully sent\n", username.c_str());
+                      break;
+                    default:
+                      printf("HUUH unknown friend_add_request_result for friend_add_result %d\n", result);
+                      break;
+                  }
+                }
+                break;
               case ingame_state_protocol::to_client_packet_opcodes::moved_to_lobby:
                 {
                   printf("Moved to lobby\n");
@@ -175,6 +266,26 @@ void handle_ingame_command(char command, std::shared_ptr<boost_socket> socket)
   net_socket::buffer sendbuf;
   switch (command)
   {
+    case 'a': //add friend
+      {
+        std::cout << "Enter username to add as a friend:\n";
+        std::string name;
+        std::cin >> name;
+        binary_serializer bs(sendbuf);
+        bs << ingame_state_protocol::to_server_packet_opcodes::friend_add << name;
+        socket->send_to_client(sendbuf, bs.get_current_size());
+      }
+      break;
+    case 'r': //remove friend
+      {
+        std::cout << "Enter username to remove from friends:\n";
+        std::string name;
+        std::cin >> name;
+        binary_serializer bs(sendbuf);
+        bs << ingame_state_protocol::to_server_packet_opcodes::friend_remove << name;
+        socket->send_to_client(sendbuf, bs.get_current_size());
+      }
+      break;
     case 'j': //join chat
       {
         std::cout << "Enter chatroom to join:\n";
@@ -254,6 +365,7 @@ void handle_lobby_command(char command, std::shared_ptr<boost_socket> socket)
         bs << lobby_state_protocol::to_server_packet_opcodes::select_character << name;
         socket->send_to_client(sendbuf, bs.get_current_size());
       }
+      break;
     case 'q': //quit
       {
         binary_serializer bs(sendbuf);

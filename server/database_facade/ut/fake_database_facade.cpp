@@ -41,16 +41,22 @@ void fake_database_facade::erase_character(const lobby_character& character)
 
 bool fake_database_facade::is_nickname_already_taken(const std::string& nickname)
 {
+  return char_name_to_uid(nickname) != 0;
+}
+
+unsigned fake_database_facade::char_name_to_uid(const std::string& nickname)
+{
   for (auto& map_node : account_to_chars_)
   {
     auto& char_list = map_node.second;
-    if(std::any_of(char_list.begin(), char_list.end(), [&nickname](const lobby_character & elem)
-  {
-    return elem.name == nickname;
-  }))
-    return true;
+    auto iter = std::find_if(char_list.begin(), char_list.end(), [&nickname](const lobby_character & elem)
+    {
+      return elem.name == nickname;
+    });
+    if (iter != char_list.end())
+      return iter->uid;
   }
-  return false;
+  return 0;
 }
 
 lobby_character fake_database_facade::create_character(const std::string& nickname, unsigned owner_acc_id)

@@ -60,19 +60,6 @@ class world_registrar
 
     unsigned find_player_id_by_name_in_database(const std::string& name)
     {
-      //db
-      //TODO
-      //kind of database for now qq
-      static const std::unordered_map<std::string, unsigned> qq{ { "jeden", 1 }, { "dwa", 2 }, { "trzy", 3 }, { "cztery", 4 }, { "szesc", 6 } };
-
-      try
-      {
-        return qq.at(name);
-      }
-      catch (...)
-      {
-
-      }
-      return world_registrar::invalid_id;
+      return db_.char_name_to_uid(name);
     }
 };

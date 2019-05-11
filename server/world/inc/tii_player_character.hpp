@@ -28,4 +28,5 @@ class tii_player_character
 
     unsigned uid() const;
     const std::string& name() const;
+    std::shared_ptr<net_session> my_session() const;
 };

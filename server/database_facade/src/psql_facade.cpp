@@ -25,9 +25,16 @@ void psql_facade::erase_character(const lobby_character& character)
 
 bool psql_facade::is_nickname_already_taken(const std::string& nickname)
 {
+  return char_name_to_uid(nickname) != 0;
+}
+
+unsigned psql_facade::char_name_to_uid(const std::string& nickname)
+{
   pqxx::work w(database_.get_conn());
   pqxx::result query_res(w.exec("SELECT id FROM characters WHERE nickname = \'" + nickname + '\''));
-  return !query_res.empty();
+  if (query_res.empty())
+    return 0;
+  return query_res[0][0].as(unsigned());
 }
 
 lobby_character psql_facade::create_character(const std::string& nickname, unsigned owner_acc_id)

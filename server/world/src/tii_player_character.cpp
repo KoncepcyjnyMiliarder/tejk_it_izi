@@ -24,3 +24,8 @@ const std::string& tii_player_character::name() const
 {
   return name_;
 }
+
+std::shared_ptr<net_session> tii_player_character::my_session() const
+{
+  return my_session_;
+}

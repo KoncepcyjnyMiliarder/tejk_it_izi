@@ -25,6 +25,24 @@ set(PACKETS_S2C
   inc/s2c/user_left_chat.hpp
   src/s2c/moved_to_lobby.cpp
   inc/s2c/moved_to_lobby.hpp
+  src/s2c/friend_online_while_you_login.cpp
+  inc/s2c/friend_online_while_you_login.hpp
+  src/s2c/friend_login.cpp
+  inc/s2c/friend_login.hpp
+  src/s2c/friend_leave.cpp
+  inc/s2c/friend_leave.hpp
+  src/s2c/new_friendship.cpp
+  inc/s2c/new_friendship.hpp
+  src/s2c/broken_friendship.cpp
+  inc/s2c/broken_friendship.hpp
+  src/s2c/friendship_request.cpp
+  inc/s2c/friendship_request.hpp
+  src/s2c/friend_add_fail.cpp
+  inc/s2c/friend_add_fail.hpp
+  src/s2c/friend_removal_fail.cpp
+  inc/s2c/friend_removal_fail.hpp
+  src/s2c/friend_add_result.cpp
+  inc/s2c/friend_add_result.hpp  
 )
 
 set(PACKETS_C2S
@@ -44,6 +62,10 @@ set(PACKETS_C2S
   inc/c2s/send_chat_msg.hpp
   src/c2s/log_off_to_lobby.cpp
   inc/c2s/log_off_to_lobby.hpp
+  src/c2s/friend_add.cpp
+  inc/c2s/friend_add.hpp
+  src/c2s/friend_remove.cpp
+  inc/c2s/friend_remove.hpp
 )
 
 set(INCLUDES
