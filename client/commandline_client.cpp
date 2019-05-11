@@ -188,10 +188,10 @@ class my_recv_completion_handler
                       printf("%s is not online, so you cant ask him\n", username.c_str());
                       break;
                     case friend_add_fail_reason::cannot_invite_self:
-                      printf("Fool, u cant invite yourself\n", username.c_str());
+                      printf("Fool, u cant invite yourself\n");
                       break;
                     case friend_add_fail_reason::already_friends:
-                      printf("You already are friends\n", username.c_str());
+                      printf("You already are friends\n");
                       break;
                     default:
                       printf("HUUH unknown friend_add_fail_reason for friend_add_fail %d\n", reason);

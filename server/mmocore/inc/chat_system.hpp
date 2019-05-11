@@ -24,10 +24,10 @@ struct chat_system_base
     chatroom(const std::string& name, chat_system_base& the_system)
       : room_name(name), the_system(the_system) {}
 
-    void broadcast_message(const std::string& msg, participant_reference participant)
+    void broadcast_message(const std::string& msg, participant_reference sender)
     {
       for (auto& participant : participants)
-        participant->on_chat_message(room_name, participant->user_name(), msg);
+        participant->on_chat_message(room_name, sender.user_name(), msg);
     }
 
     void leave(participant_reference user)

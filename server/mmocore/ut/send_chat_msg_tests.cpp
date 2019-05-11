@@ -55,18 +55,38 @@ TEST(send_chat_msg, send_message_to_all_participants)
   my_env.chat_controller_.register_me(room_name);
 
   send_chat_msg(incoming_stream, my_env).execute_associated_action();
-  auto& sock_queue = my_session->get_sock()->get_packets_sent_to_client();
-  ASSERT_EQ(2, sock_queue.size());
-  sock_queue.pop(); // pop join msg
-  std::string data_client_received(std::move(sock_queue.front()));
-  sock_queue.pop();
-  binary_deserializer bd(data_client_received);
-  std::string chatroom, user, msg;
-  ingame_state_protocol::to_client_packet_opcodes opcode;
-  bd >> opcode >> chatroom >> user >> msg;
-  EXPECT_EQ(ingame_state_protocol::to_client_packet_opcodes::chat_msg, opcode);
-  EXPECT_EQ("czekoladowa wysepka", chatroom);
-  EXPECT_EQ("KoncepcyjnyMiliarder", user);
-  EXPECT_EQ("no eloszki pysiaczki", msg);
+  //check, if my account received message
+  {
+    auto& sock_queue = my_session->get_sock()->get_packets_sent_to_client();
+    ASSERT_EQ(2, sock_queue.size());
+    sock_queue.pop(); // pop join msg
+    std::string data_client_received(std::move(sock_queue.front()));
+    sock_queue.pop();
+    binary_deserializer bd(data_client_received);
+    std::string chatroom, user, msg;
+    ingame_state_protocol::to_client_packet_opcodes opcode;
+    bd >> opcode >> chatroom >> user >> msg;
+    EXPECT_EQ(ingame_state_protocol::to_client_packet_opcodes::chat_msg, opcode);
+    EXPECT_EQ("czekoladowa wysepka", chatroom);
+    EXPECT_EQ("KoncepcyjnyMiliarder", user);
+    EXPECT_EQ("no eloszki pysiaczki", msg);
+  }
+  //check, if other participant received message
+  {
+    auto& sock_queue = other_session->get_sock()->get_packets_sent_to_client();
+    ASSERT_EQ(3, sock_queue.size());
+    sock_queue.pop(); // pop join msg
+    sock_queue.pop(); // pop my character joined as 2nd msg
+    std::string data_client_received(std::move(sock_queue.front()));
+    sock_queue.pop();
+    binary_deserializer bd(data_client_received);
+    std::string chatroom, user, msg;
+    ingame_state_protocol::to_client_packet_opcodes opcode;
+    bd >> opcode >> chatroom >> user >> msg;
+    EXPECT_EQ(ingame_state_protocol::to_client_packet_opcodes::chat_msg, opcode);
+    EXPECT_EQ("czekoladowa wysepka", chatroom);
+    EXPECT_EQ("KoncepcyjnyMiliarder", user);
+    EXPECT_EQ("no eloszki pysiaczki", msg);
+  }
 
 }

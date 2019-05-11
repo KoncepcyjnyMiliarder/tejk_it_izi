@@ -168,7 +168,7 @@ struct friend_system_base
     if (emplace_pair.second)
     {
       friendlist_of_id_.at(to_add_id).fl_component_.on_friendship_request(my_representative.name());
-      my_fl_backend.on_my_request_sent(my_representative.name(), friend_add_request_result::sent_succesfully);
+      my_fl_backend.on_my_request_sent(name, friend_add_request_result::sent_succesfully);
       return;
     }
     //insertion didnt take place, check last timestamp
