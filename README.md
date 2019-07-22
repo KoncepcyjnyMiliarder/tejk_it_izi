@@ -26,6 +26,7 @@ Just after starting, you are prompted for server IP (optionally press `l` for lo
 + `r` remove friend
 + `q` quit to lobby (also, quitting from server in lobby state in gentle way)
 
+This is the server (running on raspberry pi) and 3 windows clients connected to it:
 ![Usage](https://raw.githubusercontent.com/KoncepcyjnyMiliarder/tejk_it_izi/master/tejk_it_izi.png)
 
 ## Known issues
