@@ -10,8 +10,9 @@ int main()
   {
     psql_facade psql_boi("test_user", "aaa", "test_db");
     boost::asio::io_service io_service;
+    boost::asio::strand sync_strand(io_service);
     auto ep = boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), 6112);
-    tejk_it_izi and_worry_not(psql_boi, std::make_unique<boost_acceptor>(io_service, ep));
+    tejk_it_izi and_worry_not(psql_boi, std::make_unique<boost_acceptor>(io_service, ep, sync_strand));
     for (;;)
     {
       and_worry_not.tick();

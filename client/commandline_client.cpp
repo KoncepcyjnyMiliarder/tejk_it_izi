@@ -410,7 +410,8 @@ int main()
     return 1;
   }
   printf("connected \\o/\n");
-  std::shared_ptr<boost_socket> socket(std::make_unique<boost_socket>(std::move(mysock)));
+  boost::asio::strand sync_strand(io_service);
+  std::shared_ptr<boost_socket> socket(std::make_unique<boost_socket>(std::move(mysock), sync_strand));
   std::thread([&socket]
   {
     net_socket::buffer sendbuf;
