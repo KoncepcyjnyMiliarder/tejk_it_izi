@@ -12,10 +12,10 @@ boost_acceptor::boost_acceptor(boost::asio::io_service& io_service, boost::asio:
 void boost_acceptor::async_accept(accept_completion_handler& handler)
 {
   acceptor_.async_accept(sock_,
-                         [this, &handler](const boost::system::error_code & ec)
+                         sync_strand_.wrap([this, &handler](const boost::system::error_code & ec)
   {
     if (!ec)
       handler.on_accept(std::make_unique<boost_socket>(std::move(sock_), sync_strand_));
     async_accept(handler);
-  });
+  }));
 }
