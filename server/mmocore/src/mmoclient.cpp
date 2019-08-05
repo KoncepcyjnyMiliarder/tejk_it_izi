@@ -5,8 +5,6 @@
 
 void mmoclient::on_recv(const net_socket::buffer& data, unsigned size)
 {
-  //to the packet buffer and fetch result?
-  //TEMP BEZ BUFOROWANIA
   current_state_->handle_network_packet(data, size);
 }
 

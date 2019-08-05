@@ -23,6 +23,8 @@ void preauth_state::handle_network_packet(const std::array<char, 2048>& data, un
   preauth_state_protocol::to_server_packet_opcodes opcode;
   bd >> opcode;
 
+  auto session = my_session_; //this is cause the object can commit suicide if it's the enterworld packet. I got to think of solution
+
   if (opcode == preauth_state_protocol::loginserver_keys)
   {
     std::string loginserver_key;
@@ -37,6 +39,7 @@ void preauth_state::handle_network_packet(const std::array<char, 2048>& data, un
       {
         my_session_->send_to_client(ok_response_, 1);
         transitioner_.transition(std::make_unique<lobby_state>(transitioner_, my_session_, world_, logger_, db_, db_.get_account_data(account_login)));
+        session->do_recv(); // calling do_recv again explicitly, or scheduling database action while socket is not listening
         return; //make sure ; O
       }
       else

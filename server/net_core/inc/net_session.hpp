@@ -10,11 +10,11 @@ class net_session
 
     std::shared_ptr<net_socket> my_sock_;
 
-    void do_recv();
-
   public:
 
     net_session(std::shared_ptr<net_socket> sock);
+
+    void do_recv();
 
     void send_to_client(const net_socket::buffer& data, unsigned size);
 

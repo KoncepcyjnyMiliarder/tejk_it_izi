@@ -16,8 +16,10 @@ void lobby_state::handle_network_packet(const std::array<char, 2048>& data, unsi
 {
   try
   {
+    auto session = my_session_; //this is cause the object can commit suicide if it's the enterworld packet. I got to think of solution
     auto ptr = recv_factory_.construct(data, len);
     ptr->execute_associated_action();
+    session->do_recv(); // calling do_recv again explicitly, or scheduling database action while socket is not listening
   }
   catch (const std::exception& e)
   {

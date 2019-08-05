@@ -34,7 +34,6 @@ void boost_socket::do_recv_data(recv_completion_handler& handler, unsigned expec
       return;
     }
     handler.on_recv(recvbuf_, bytes_read);
-    do_recv_expected_len(handler);
   }));
 }
 

@@ -27,8 +27,16 @@ class my_recv_completion_handler
 {
   public:
 
+    std::shared_ptr<boost_socket> my_sock_;
+    my_recv_completion_handler(std::shared_ptr<boost_socket> my_sock)
+      : my_sock_(my_sock)
+    {
+      my_sock_->async_recv(*this);
+    }
+
     virtual void on_recv(const net_socket::buffer& data, unsigned size) override
     {
+      my_sock_->async_recv(*this);
       binary_deserializer bd(data.data(), size);
       switch(cs)
       {
@@ -440,8 +448,7 @@ int main()
       }
     }
   }).detach();
-  my_recv_completion_handler tralala;
-  socket->async_recv(tralala);
+  my_recv_completion_handler tralala(socket);
   while (1)
     io_service.poll();
 }
