@@ -3,6 +3,7 @@
 #include <state_transitioner.hpp>
 #include <ingame_state_recv_packet_factory.hpp>
 #include <s2c/moved_to_lobby.hpp>
+#include <asynchronous_database_adapter.hpp>
 
 class ingame_state :
   public client_state
@@ -27,11 +28,13 @@ class ingame_state :
     finalizer fin_;
     user_environment my_environment_;
     ingame_state_recv_packet_factory recv_factory_;
+    asynchronous_database_adapter& async_db_;
 
   public:
 
     ingame_state(state_transitioner& transitioner, std::shared_ptr<net_session> my_session, world& universe,
-                 logger& logger, const lobby_character& selected_char, database_facade& db, account_data acc_data);
+                 logger& logger, const lobby_character& selected_char, database_facade& db, account_data acc_data,
+                 asynchronous_database_adapter& async_db);
     ~ingame_state();
 
     virtual void handle_network_packet(const std::array<char, 2048>& data, unsigned len) override;

@@ -14,18 +14,20 @@ void mmoclient::on_error()
   force_close();
 }
 
-mmoclient::mmoclient(std::shared_ptr<net_socket> sock, database_facade& db, task_scheduler& scheduler, logger& logger)
+mmoclient::mmoclient(std::shared_ptr<net_socket> sock, database_facade& db, task_scheduler& scheduler,
+                     logger& logger, asynchronous_database_adapter& async_db)
   : net_session(std::move(sock)),
     db_(db),
     scheduler_(scheduler),
-    logger_(logger)
+    logger_(logger),
+    async_db_(async_db)
 {
 }
 
 void mmoclient::start(world& universe, login_validator& authenticator)
 {
   logger_.log_diagnostic(__func__);
-  current_state_ = std::make_unique<preauth_state>(*this, shared_from_this(), universe, logger_, authenticator, db_);
+  current_state_ = std::make_unique<preauth_state>(*this, shared_from_this(), universe, logger_, authenticator, db_, async_db_);
   current_state_->start();
 }
 

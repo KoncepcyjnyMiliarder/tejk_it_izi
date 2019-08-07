@@ -15,7 +15,7 @@ int main()
     boost::asio::strand sync_strand(io_service);
     auto ep = boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), 6112);
     boost::asio::deadline_timer timer(io_service, boost::posix_time::seconds(0));
-    tejk_it_izi and_worry_not(psql_boi, std::make_unique<boost_acceptor>(io_service, ep, sync_strand), timer, sync_strand);
+    tejk_it_izi and_worry_not(psql_boi, std::make_unique<boost_acceptor>(io_service, ep, sync_strand), timer, sync_strand, io_service);
     //start worker threads
     std::vector<std::thread> workers;
     for(int i = 0; i < 4; ++i)

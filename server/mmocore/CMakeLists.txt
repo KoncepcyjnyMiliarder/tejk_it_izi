@@ -50,6 +50,7 @@ set(INCLUDES
   inc/friend_system.hpp
   inc/tii_player_character.hpp
   inc/friendlist_backend.hpp
+  inc/asynchronous_database_adapter.hpp
 )
 
 set(PACKETS_S2C

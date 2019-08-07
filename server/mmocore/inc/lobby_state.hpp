@@ -5,7 +5,7 @@
 #include <logger.hpp>
 #include <lobby_character.hpp>
 #include <lobby_state_recv_packet_factory.hpp>
-#include <database_facade.hpp>
+#include <asynchronous_database_adapter.hpp>
 
 class lobby_state :
   public client_state
@@ -15,6 +15,7 @@ class lobby_state :
     world& world_;
     logger& logger_;
     database_facade& db_;
+    asynchronous_database_adapter& async_db_;
     account_data acc_data_;
 
     lobby_state_recv_packet_factory recv_factory_;
@@ -22,7 +23,9 @@ class lobby_state :
 
   public:
 
-    lobby_state(state_transitioner& transitioner, std::shared_ptr<net_session> my_session, world& universe, logger& logger, database_facade& db, account_data acc_data);
+    lobby_state(state_transitioner& transitioner, std::shared_ptr<net_session> my_session,
+                world& universe, logger& logger, database_facade& db, account_data acc_data,
+                asynchronous_database_adapter& async_db);
     virtual void handle_network_packet(const std::array<char, 2048>& data, unsigned len) override;
     virtual void start() override;
 

@@ -5,7 +5,7 @@
 #include <login_validator.hpp>
 #include <world.hpp>
 #include <logger.hpp>
-#include <database_facade.hpp>
+#include <asynchronous_database_adapter.hpp>
 #include <task_scheduler.hpp>
 
 class mmoclient
@@ -16,13 +16,15 @@ class mmoclient
     database_facade& db_;
     task_scheduler& scheduler_;
     logger& logger_;
+    asynchronous_database_adapter& async_db_;
 
     virtual void on_recv(const net_socket::buffer& data, unsigned size) override;
     virtual void on_error() override;
 
   public:
 
-    mmoclient(std::shared_ptr<net_socket> sock, database_facade& db, task_scheduler& scheduler, logger& logger);
+    mmoclient(std::shared_ptr<net_socket> sock, database_facade& db, task_scheduler& scheduler,
+              logger& logger, asynchronous_database_adapter& async_db);
 
     void start(world& universe, login_validator& authenticator);
     virtual void force_close() override;

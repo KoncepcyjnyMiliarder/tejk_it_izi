@@ -10,6 +10,7 @@
 #include <database_facade.hpp>
 #include <client_state.hpp>
 #include <task_scheduler.hpp>
+#include <asynchronous_database_adapter.hpp>
 
 //VERY TEMP DUMMY VALIDATOR
 class dummy_validator
@@ -38,6 +39,7 @@ class tejk_it_izi
     console_logger logger_;
     dummy_validator authenticator_;
 
+    asynchronous_database_adapter async_db_;
     virtual void on_accept(std::shared_ptr<net_socket> sock) override;
 
     void tick();
@@ -45,7 +47,8 @@ class tejk_it_izi
   public:
 
     tejk_it_izi(database_facade& db, std::unique_ptr<client_acceptor> acceptor,
-                boost::asio::deadline_timer& timer, boost::asio::strand& sync_strand);
+                boost::asio::deadline_timer& timer, boost::asio::strand& sync_strand,
+                boost::asio::io_service& io_service);
 
     void run();
 
