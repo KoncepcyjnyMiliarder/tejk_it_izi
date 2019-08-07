@@ -24,8 +24,6 @@ void preauth_state::handle_network_packet(const std::array<char, 2048>& data, un
   preauth_state_protocol::to_server_packet_opcodes opcode;
   bd >> opcode;
 
-  auto session = my_session_; //this is cause the object can commit suicide if it's the enterworld packet. I got to think of solution
-
   if (opcode == preauth_state_protocol::loginserver_keys)
   {
     std::string loginserver_key;
