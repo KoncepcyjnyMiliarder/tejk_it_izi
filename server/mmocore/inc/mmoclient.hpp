@@ -6,7 +6,7 @@
 #include <world.hpp>
 #include <logger.hpp>
 #include <database_facade.hpp>
-#include <queue>
+#include <task_scheduler.hpp>
 
 class mmoclient
   : public std::enable_shared_from_this<mmoclient>,
@@ -14,14 +14,14 @@ class mmoclient
     public net_session
 {
     database_facade& db_;
-    std::queue<std::unique_ptr<client_state>>& never_never_land_;
+    task_scheduler& scheduler_;
 
     virtual void on_recv(const net_socket::buffer& data, unsigned size) override;
     virtual void on_error() override;
 
   public:
 
-    mmoclient(std::shared_ptr<net_socket> sock, database_facade& db, std::queue<std::unique_ptr<client_state>>& never_never_land);
+    mmoclient(std::shared_ptr<net_socket> sock, database_facade& db, task_scheduler& scheduler);
 
     void start(world& universe, logger& logger, login_validator& authenticator);
     virtual void force_close() override;

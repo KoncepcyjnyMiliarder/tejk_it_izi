@@ -13,10 +13,10 @@ void mmoclient::on_error()
   force_close();
 }
 
-mmoclient::mmoclient(std::shared_ptr<net_socket> sock, database_facade& db, std::queue<std::unique_ptr<client_state>>& never_never_land)
+mmoclient::mmoclient(std::shared_ptr<net_socket> sock, database_facade& db, task_scheduler& scheduler)
   : net_session(std::move(sock)),
     db_(db),
-    never_never_land_(never_never_land)
+    scheduler_(scheduler)
 {
 }
 
@@ -31,6 +31,10 @@ void mmoclient::force_close()
 {
   my_sock_->force_close();
   my_sock_ = std::make_unique<null_socket>();
-  never_never_land_.push(std::move(current_state_));
-  current_state_ = std::make_unique<null_state>();
+  auto self = shared_from_this();
+  scheduler_.schedule_task([this, self]
+  {
+    //destroying current_state by overwriting it with null_state
+    current_state_ = std::make_unique<null_state>();
+  });
 }

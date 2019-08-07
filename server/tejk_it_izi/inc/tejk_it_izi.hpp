@@ -9,8 +9,7 @@
 #include <world.hpp>
 #include <database_facade.hpp>
 #include <client_state.hpp>
-#include <queue>
-#include <boost/asio.hpp>
+#include <task_scheduler.hpp>
 
 //VERY TEMP DUMMY VALIDATOR
 class dummy_validator
@@ -32,13 +31,12 @@ class tejk_it_izi
 
     boost::asio::deadline_timer& timer_;
     boost::asio::strand& sync_strand_;
+    task_scheduler scheduler_;
     std::chrono::time_point<std::chrono::steady_clock> start_;
 
     world universe_;
     console_logger logger_;
     dummy_validator authenticator_;
-
-    std::queue<std::unique_ptr<client_state>> never_never_land_;
 
     virtual void on_accept(std::shared_ptr<net_socket> sock) override;
 

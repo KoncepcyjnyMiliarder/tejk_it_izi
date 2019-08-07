@@ -42,6 +42,7 @@ set(INCLUDES
   inc/friend_system_error_codes.hpp
   inc/world_registrar.hpp
   inc/world.hpp
+  inc/task_scheduler.hpp
   inc/chat_system.hpp
   inc/chat_participant.hpp
   inc/user_environment.hpp
