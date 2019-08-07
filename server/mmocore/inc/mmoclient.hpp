@@ -26,4 +26,6 @@ class mmoclient
 
     void start(world& universe, login_validator& authenticator);
     virtual void force_close() override;
+
+    virtual void schedule_transition(std::unique_ptr<client_state> new_state) override;
 };

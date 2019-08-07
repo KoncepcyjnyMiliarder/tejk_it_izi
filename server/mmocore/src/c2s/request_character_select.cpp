@@ -32,5 +32,5 @@ void request_character_select::execute_associated_action()
   std::array<char, 2048> buffer;
   auto len = lobby_packet_constructors::character_selected(buffer, *it);
   my_session_->send_to_client(buffer, len);
-  transitioner_.transition(std::make_unique<ingame_state>(transitioner_, my_session_, world_, logger_, *it, db_, acc_data_)); //C A R E F U L
+  transitioner_.schedule_transition(std::make_unique<ingame_state>(transitioner_, my_session_, world_, logger_, *it, db_, acc_data_));
 }

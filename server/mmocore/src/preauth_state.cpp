@@ -39,9 +39,7 @@ void preauth_state::handle_network_packet(const std::array<char, 2048>& data, un
       if (authenticator_.are_loginkey_and_username_valid(loginserver_key, account_login))
       {
         my_session_->send_to_client(ok_response_, 1);
-        transitioner_.transition(std::make_unique<lobby_state>(transitioner_, my_session_, world_, logger_, db_, db_.get_account_data(account_login)));
-        session->do_recv(); // calling do_recv again explicitly, or scheduling database action while socket is not listening
-        return; //make sure ; O
+        transitioner_.schedule_transition(std::make_unique<lobby_state>(transitioner_, my_session_, world_, logger_, db_, db_.get_account_data(account_login)));
       }
       else
       {
@@ -67,4 +65,5 @@ void preauth_state::handle_network_packet(const std::array<char, 2048>& data, un
 void preauth_state::start()
 {
   logger_.log_diagnostic(__func__);
+  my_session_->do_recv();
 }

@@ -9,7 +9,7 @@ log_off_to_lobby::log_off_to_lobby(state_transitioner& transitioner, user_enviro
 
 void log_off_to_lobby::execute_associated_action()
 {
-  transitioner_.transition(std::make_unique<lobby_state>(transitioner_, my_environment_.my_session_,
-                           my_environment_.universe_, my_environment_.logger_, my_environment_.db_,
-                           my_environment_.acc_data_)); //C A R E F U L
+  transitioner_.schedule_transition(std::make_unique<lobby_state>(transitioner_, my_environment_.my_session_,
+                                    my_environment_.universe_, my_environment_.logger_, my_environment_.db_,
+                                    my_environment_.acc_data_));
 }
