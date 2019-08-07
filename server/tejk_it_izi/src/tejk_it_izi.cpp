@@ -24,10 +24,12 @@ void tejk_it_izi::tick()
 
 void tejk_it_izi::run()
 {
+  logger_.log_diagnostic(__func__);
   timer_.async_wait(sync_strand_.wrap(std::bind(&tejk_it_izi::tick, this)));
 }
 
 void tejk_it_izi::on_accept(std::shared_ptr<net_socket> sock)
 {
-  std::make_shared<mmoclient>(std::move(sock), db_, scheduler_)->start(universe_, logger_, authenticator_);
+  logger_.log_diagnostic(__func__);
+  std::make_shared<mmoclient>(std::move(sock), db_, scheduler_, logger_)->start(universe_, authenticator_);
 }

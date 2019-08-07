@@ -20,7 +20,7 @@ void request_character_delete::execute_associated_action()
 
   if (it == lobby_chars_.end())
   {
-    logger_.log("someone requested to delete nonexistent character: " + char_name_);
+    logger_.log_diagnostic("someone requested to delete nonexistent character: " + char_name_);
     my_session_->force_close();
     return;
   }

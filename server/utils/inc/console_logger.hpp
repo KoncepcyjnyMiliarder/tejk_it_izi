@@ -7,5 +7,5 @@ class console_logger
 {
   public:
 
-    virtual void log(const std::string& msg) override;
+    virtual void log_diagnostic(const std::string& msg) override;
 };

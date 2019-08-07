@@ -1,6 +1,6 @@
 #include <fake_logger.hpp>
 
-void fake_logger::log(const std::string& msg)
+void fake_logger::log_diagnostic(const std::string& msg)
 {
   log_msgs_.push(msg);
 }

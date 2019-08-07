@@ -24,7 +24,7 @@ void request_character_select::execute_associated_action()
 
   if (it == lobby_chars_.end())
   {
-    logger_.log("someone requested to join game with nonexistent character: " + char_name_);
+    logger_.log_diagnostic(acc_data_.login + " requested to join game with nonexistent character: " + char_name_);
     my_session_->force_close();
     return;
   }

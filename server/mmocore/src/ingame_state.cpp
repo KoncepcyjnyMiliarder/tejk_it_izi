@@ -11,6 +11,7 @@ ingame_state::ingame_state(state_transitioner& transitioner, std::shared_ptr<net
 
 ingame_state::~ingame_state()
 {
+  my_environment_.logger_.log_diagnostic(__func__);
 }
 
 void ingame_state::handle_network_packet(const std::array<char, 2048>& data, unsigned len)
@@ -24,12 +25,13 @@ void ingame_state::handle_network_packet(const std::array<char, 2048>& data, uns
   }
   catch (const std::exception& e)
   {
-    my_environment_.logger_.log(e.what());
+    my_environment_.logger_.log_diagnostic(e.what());
     my_environment_.my_session_->force_close();
   }
 }
 
 void ingame_state::start()
 {
+  my_environment_.logger_.log_diagnostic(__func__);
   //send enterworld info, at the moment (chat system only) nothing is actually needed
 }

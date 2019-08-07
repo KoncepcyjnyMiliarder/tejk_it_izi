@@ -15,14 +15,15 @@ class mmoclient
 {
     database_facade& db_;
     task_scheduler& scheduler_;
+    logger& logger_;
 
     virtual void on_recv(const net_socket::buffer& data, unsigned size) override;
     virtual void on_error() override;
 
   public:
 
-    mmoclient(std::shared_ptr<net_socket> sock, database_facade& db, task_scheduler& scheduler);
+    mmoclient(std::shared_ptr<net_socket> sock, database_facade& db, task_scheduler& scheduler, logger& logger);
 
-    void start(world& universe, logger& logger, login_validator& authenticator);
+    void start(world& universe, login_validator& authenticator);
     virtual void force_close() override;
 };

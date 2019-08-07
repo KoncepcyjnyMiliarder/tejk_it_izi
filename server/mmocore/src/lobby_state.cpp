@@ -10,6 +10,7 @@ lobby_state::lobby_state(state_transitioner& transitioner, std::shared_ptr<net_s
     acc_data_(acc_data),
     recv_factory_(my_session, transitioner, world_, logger_, lobby_chars_, db, acc_data_)
 {
+  logger_.log_diagnostic(__func__);
 }
 
 void lobby_state::handle_network_packet(const std::array<char, 2048>& data, unsigned len)
@@ -23,13 +24,14 @@ void lobby_state::handle_network_packet(const std::array<char, 2048>& data, unsi
   }
   catch (const std::exception& e)
   {
-    logger_.log(e.what());
+    logger_.log_diagnostic(e.what());
     my_session_->force_close();
   }
 }
 
 void lobby_state::start()
 {
+  logger_.log_diagnostic(__func__);
   lobby_chars_ = db_.get_lobby_chars(acc_data_.uid);
   std::array<char, 2048> buffer;
   auto len = lobby_packet_constructors::character_list(buffer, lobby_chars_);

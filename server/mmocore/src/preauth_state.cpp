@@ -15,6 +15,7 @@ preauth_state::preauth_state(state_transitioner& transitioner, std::shared_ptr<n
     authenticator_(authenticator),
     db_(db)
 {
+  logger_.log_diagnostic(__func__);
 }
 
 void preauth_state::handle_network_packet(const std::array<char, 2048>& data, unsigned len)
@@ -44,20 +45,20 @@ void preauth_state::handle_network_packet(const std::array<char, 2048>& data, un
       }
       else
       {
-        logger_.log("Rip in pepperonis, the loginserver doesnt recognize you: " + account_login);
+        logger_.log_diagnostic("Rip in pepperonis, the loginserver doesnt recognize you: " + account_login);
         my_session_->send_to_client(fuck_you_response_, 1);
         my_session_->force_close();
       }
     }
     catch (const std::underflow_error& e)
     {
-      logger_.log(e.what());
+      logger_.log_diagnostic(e.what());
       my_session_->force_close();
     }
   }
   else
   {
-    logger_.log("Rip in pepperonis, unknown packet opcode: " + std::to_string(opcode));
+    logger_.log_diagnostic("Rip in pepperonis, unknown packet opcode: " + std::to_string(opcode));
     my_session_->send_to_client(fuck_you_response_, 1);
     my_session_->force_close();
   }
@@ -65,4 +66,5 @@ void preauth_state::handle_network_packet(const std::array<char, 2048>& data, un
 
 void preauth_state::start()
 {
+  logger_.log_diagnostic(__func__);
 }

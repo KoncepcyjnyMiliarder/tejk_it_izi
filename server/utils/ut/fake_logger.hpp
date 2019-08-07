@@ -11,6 +11,6 @@ class fake_logger
 
   public:
 
-    virtual void log(const std::string& msg) override;
+    virtual void log_diagnostic(const std::string& msg) override;
     std::queue<std::string>& get_log();
 };
