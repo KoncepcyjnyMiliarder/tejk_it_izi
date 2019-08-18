@@ -6,6 +6,7 @@
 #include <tii_player_character.hpp>
 #include <friend_system.hpp>
 #include <friendlist_backend.hpp>
+#include <task_scheduler.hpp>
 
 //very temp clock impl
 #include <chrono>
@@ -21,6 +22,7 @@ struct realtime_clock
 class world
   : public world_registrar<tii_player_character>
 {
+    task_scheduler& scheduler_;
     realtime_clock clock_;
     database_facade& db_;
 
@@ -33,5 +35,5 @@ class world
     chat_system chat_;
     friend_system friends_;
 
-    world(database_facade& db);
+    world(database_facade& db, task_scheduler& scheduler);
 };

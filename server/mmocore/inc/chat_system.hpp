@@ -6,6 +6,7 @@
 #include <list>
 #include <algorithm>
 #include <cassert>
+#include <task_scheduler.hpp>
 
 template<typename ParticipantT>
 struct chat_system_base
@@ -42,6 +43,8 @@ struct chat_system_base
   };
 
   std::unordered_map<std::string, chatroom> active_chatrooms;
+  task_scheduler& scheduler_;
+  std::unique_ptr<task_scheduler::postponed_task> periodic_broadcast_task_;
 
   using chatroom_ptr = typename chatroom::pointer;
 
@@ -60,5 +63,24 @@ struct chat_system_base
     for (auto& elem : selected_channel.participants)
       elem->on_user_joined_chat(channel_name, participant.user_name());
     return &selected_channel;
+  }
+
+  void periodic_task()
+  {
+    for (auto& chatroom_pair : active_chatrooms)
+    {
+      chatroom& selected_channel = chatroom_pair.second;
+      const std::string sender_name("[[BROADCAST - " + selected_channel.room_name + "]]");
+      const std::string message("There are currently: " + std::to_string(selected_channel.participants.size()) + " users on the chat!");
+      for (auto& participant : selected_channel.participants)
+        participant->on_chat_message(selected_channel.room_name, sender_name, message);
+    }
+    periodic_broadcast_task_ = std::move(scheduler_.postpone_task(std::bind(&chat_system_base::periodic_task, this), boost::posix_time::seconds(6)));
+  }
+
+  chat_system_base(task_scheduler& scheduler)
+    : scheduler_(scheduler)
+  {
+    periodic_broadcast_task_ = std::move(scheduler_.postpone_task(std::bind(&chat_system_base::periodic_task, this), boost::posix_time::seconds(6)));
   }
 };

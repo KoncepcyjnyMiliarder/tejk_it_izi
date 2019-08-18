@@ -12,7 +12,7 @@ tejk_it_izi::tejk_it_izi(database_facade& db, std::unique_ptr<client_acceptor> a
     sync_strand_(sync_strand),
     scheduler_(sync_strand_),
     start_(std::chrono::steady_clock::now()),
-    universe_(db),
+    universe_(db, scheduler_),
     async_db_(db, scheduler_, io_service)
 {
   acceptor_->async_accept(*this);
