@@ -136,6 +136,13 @@ class my_recv_completion_handler
             bd >> opcode;
             switch (opcode)
             {
+              case ingame_state_protocol::to_client_packet_opcodes::whisper_message:
+                {
+                  std::string sender, msg;
+                  bd >> sender >> msg;
+                  printf("[WHISPER] %s: %s\n", sender.c_str(), msg.c_str());
+                }
+                break;
               case ingame_state_protocol::to_client_packet_opcodes::friend_online_while_you_login:
                 {
                   std::string username;
@@ -274,6 +281,16 @@ void handle_ingame_command(char command, std::shared_ptr<boost_socket> socket)
   net_socket::buffer sendbuf;
   switch (command)
   {
+    case 'w': //send whisper
+      {
+        std::cout << "Enter username and message to whisper:\n";
+        std::string name, msg;
+        std::cin >> name >> msg;
+        binary_serializer bs(sendbuf);
+        bs << ingame_state_protocol::to_server_packet_opcodes::send_whisper << name << msg;
+        socket->send_to_client(sendbuf, bs.get_current_size());
+      }
+      break;
     case 'a': //add friend
       {
         std::cout << "Enter username to add as a friend:\n";

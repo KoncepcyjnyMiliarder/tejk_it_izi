@@ -31,6 +31,12 @@ void chat_system::periodic_broadcast()
   periodic_broadcast_task_ = std::move(scheduler_.postpone_task(std::bind(&chat_system::periodic_broadcast, this), boost::posix_time::seconds(6)));
 }
 
+chat_system::chat_system(task_scheduler& scheduler, world_registrar& online_player_registry)
+  : scheduler_(scheduler), online_player_registry_(online_player_registry)
+{
+  periodic_broadcast_task_ = std::move(scheduler_.postpone_task(std::bind(&chat_system::periodic_broadcast, this), boost::posix_time::seconds(6)));
+}
+
 void chat_system::register_me(tii_entity_representative::const_reference my_representative, std::unique_ptr<chat_backend> my_backend)
 {
   assert(entities_.count(&my_representative) == 0);
@@ -98,4 +104,15 @@ void chat_system::broadcast_message(tii_entity_representative::const_reference m
   assert(entities_.at(&my_representative).chatrooms_im_in.count(room));
   for (auto& participant : room->participants)
     entities_.at(participant).backend->on_chat_message(room->room_name, my_representative.name(), msg);
+}
+
+void chat_system::whisper(tii_entity_representative::const_reference my_representative, const std::string& recipient, const std::string& msg)
+{
+  assert(entities_.count(&my_representative));
+  //find the recipient
+  auto his_entity_ptr = online_player_registry_.find_online_player_by_name(recipient);
+  if (his_entity_ptr == nullptr)
+    return;
+  assert(entities_.count(his_entity_ptr));
+  entities_.at(his_entity_ptr).backend->on_whisper(my_representative.name(), msg);
 }

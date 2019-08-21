@@ -74,7 +74,9 @@ set(PACKETS_S2C
   src/s2c/friend_removal_fail.cpp
   inc/s2c/friend_removal_fail.hpp
   src/s2c/friend_add_result.cpp
-  inc/s2c/friend_add_result.hpp  
+  inc/s2c/friend_add_result.hpp
+  src/s2c/whisper_message.cpp
+  inc/s2c/whisper_message.hpp
 )
 
 set(PACKETS_C2S
@@ -98,6 +100,8 @@ set(PACKETS_C2S
   inc/c2s/friend_add.hpp
   src/c2s/friend_remove.cpp
   inc/c2s/friend_remove.hpp
+  src/c2s/send_whisper.cpp
+  inc/c2s/send_whisper.hpp
 )
 
 set(SOURCES_FRIEND_SYSTEM

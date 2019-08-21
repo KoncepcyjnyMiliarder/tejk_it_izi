@@ -5,6 +5,7 @@
 #include <task_scheduler.hpp>
 #include <tii_entity_representative.hpp>
 #include <chat_system/chatroom.hpp>
+#include <world_registrar.hpp>
 
 class chat_system
 {
@@ -22,6 +23,8 @@ class chat_system
     std::unordered_map<std::string, chatroom> active_chatrooms_;
 
     task_scheduler& scheduler_;
+    world_registrar& online_player_registry_;
+
     std::unique_ptr<task_scheduler::postponed_task> periodic_broadcast_task_;
 
     void unregister_from_chatroom(tii_entity_representative::const_pointer my_representative, chatroom* room);
@@ -29,11 +32,7 @@ class chat_system
 
   public:
 
-    chat_system(task_scheduler& scheduler)
-      : scheduler_(scheduler)
-    {
-      periodic_broadcast_task_ = std::move(scheduler_.postpone_task(std::bind(&chat_system::periodic_broadcast, this), boost::posix_time::seconds(6)));
-    }
+    chat_system(task_scheduler& scheduler, world_registrar& online_player_registry);
 
     void register_me(tii_entity_representative::const_reference my_representative, std::unique_ptr<chat_backend> my_backend);
     void unregister_me(tii_entity_representative::const_reference my_representative);

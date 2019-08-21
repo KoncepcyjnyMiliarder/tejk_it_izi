@@ -30,5 +30,5 @@ void chat_controller::broadcast_message(const std::string& chatroom_name, const 
 
 void chat_controller::send_whisper(const std::string& recipient_nick, const std::string& msg)
 {
-  //TODO!
+  chat_sys_.whisper(my_representative_, recipient_nick, msg);
 }

@@ -11,6 +11,7 @@ enum to_client_packet_opcodes : char
   user_joined_chat,
   user_left_chat,
   chat_msg,
+  whisper_message,
   //friend_system
   friend_online_while_you_login,
   friend_login,
@@ -30,6 +31,7 @@ enum to_server_packet_opcodes : char
   join_chat,
   leave_chat,
   send_chat_msg,
+  send_whisper,
   //friend_system
   friend_add,
   friend_remove
