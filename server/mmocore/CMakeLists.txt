@@ -7,13 +7,11 @@ set(SOURCES
   src/lobby_state.cpp
   src/mmoclient.cpp
   src/preauth_state.cpp
-  src/chat_controller.cpp
   src/lobby_state_recv_packet_factory.cpp
   src/ingame_state_recv_packet_factory.cpp
   src/null_received_packet.cpp
   src/world.cpp
-  src/chat_participant.cpp
-  src/tii_player_character.cpp
+  src/tii_entity_representative.cpp
 )
 
 set(INCLUDES
@@ -26,7 +24,6 @@ set(INCLUDES
   inc/preauth_state.hpp
   inc/state_transitioner.hpp
   inc/login_validator.hpp
-  inc/chat_controller.hpp
   inc/lobby_state_recv_packet_factory.hpp
   inc/preauth_state_protocol.hpp
   inc/received_packet.hpp
@@ -38,10 +35,8 @@ set(INCLUDES
   inc/world_registrar.hpp
   inc/world.hpp
   inc/task_scheduler.hpp
-  inc/chat_system.hpp
-  inc/chat_participant.hpp
   inc/user_environment.hpp
-  inc/tii_player_character.hpp
+  inc/tii_entity_representative.hpp
   inc/asynchronous_database_adapter.hpp
 )
 
@@ -106,23 +101,37 @@ set(PACKETS_C2S
 )
 
 set(SOURCES_FRIEND_SYSTEM
-  inc/friend_system/friend_list.hpp
-  src/friend_system/friend_list.cpp
   inc/friend_system/friend_system.hpp
   src/friend_system/friend_system.cpp
   inc/friend_system/friend_backend.hpp
-  src/friend_system/friend_backend.cpp
+  inc/friend_system/default_friend_backend.hpp
+  src/friend_system/default_friend_backend.cpp
   inc/friend_system/friend_controller.hpp
   src/friend_system/friend_controller.cpp
+  inc/friend_system/single_friend_request.hpp
+  inc/friend_system/pending_friend_requests.hpp
+  src/friend_system/pending_friend_requests.cpp
+)
+
+set(SOURCES_CHAT_SYSTEM
+  inc/chat_system/chatroom.hpp
+  src/chat_system/chatroom.cpp
+  inc/chat_system/chat_controller.hpp
+  src/chat_system/chat_controller.cpp
+  inc/chat_system/chat_system.hpp
+  src/chat_system/chat_system.cpp
+  inc/chat_system/chat_backend.hpp
+  inc/chat_system/default_chat_backend.hpp
+  src/chat_system/default_chat_backend.cpp
 )
 
 SOURCE_GROUP(${PROJECT_NAME} FILES ${SOURCES} ${INCLUDES})
 SOURCE_GROUP(s2c FILES ${PACKETS_S2C})
 SOURCE_GROUP(c2s FILES ${PACKETS_C2S})
-
 SOURCE_GROUP(friend_system FILES ${SOURCES_FRIEND_SYSTEM})
+SOURCE_GROUP(chat_system FILES ${SOURCES_CHAT_SYSTEM})
 
-add_library(${PROJECT_NAME} STATIC ${SOURCES} ${INCLUDES} ${PACKETS_S2C} ${PACKETS_C2S} ${SOURCES_FRIEND_SYSTEM})
+add_library(${PROJECT_NAME} STATIC ${SOURCES} ${INCLUDES} ${PACKETS_S2C} ${PACKETS_C2S} ${SOURCES_FRIEND_SYSTEM} ${SOURCES_CHAT_SYSTEM})
 target_include_directories(${PROJECT_NAME} PUBLIC inc)
 target_link_libraries(${PROJECT_NAME} PUBLIC net_core utils database_facade)
 

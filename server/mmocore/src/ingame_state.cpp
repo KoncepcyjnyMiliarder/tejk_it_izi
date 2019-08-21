@@ -9,10 +9,12 @@ ingame_state::ingame_state(state_transitioner& transitioner, std::shared_ptr<net
     recv_factory_(transitioner_, my_environment_),
     async_db_(async_db)
 {
+  universe.online_player_registry_.register_me(my_environment_.my_character_);
 }
 
 ingame_state::~ingame_state()
 {
+  my_environment_.universe_.online_player_registry_.unregister_me(my_environment_.my_character_);
   my_environment_.logger_.log_diagnostic(__func__);
 }
 

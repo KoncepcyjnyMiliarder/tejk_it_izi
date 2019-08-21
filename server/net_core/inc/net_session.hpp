@@ -12,6 +12,8 @@ class net_session
 
   public:
 
+    using session_ptr = std::shared_ptr<net_session>;
+
     net_session(std::shared_ptr<net_socket> sock);
 
     void do_recv();
