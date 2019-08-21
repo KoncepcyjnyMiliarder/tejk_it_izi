@@ -111,7 +111,7 @@ void chat_system::whisper(tii_entity_representative::const_reference my_represen
   assert(entities_.count(&my_representative));
   //find the recipient
   auto his_entity_ptr = online_player_registry_.find_online_player_by_name(recipient);
-  if (his_entity_ptr == nullptr)
+  if (his_entity_ptr == nullptr || his_entity_ptr == &my_representative)
     return;
   assert(entities_.count(his_entity_ptr));
   entities_.at(his_entity_ptr).backend->on_whisper(my_representative.name(), msg);

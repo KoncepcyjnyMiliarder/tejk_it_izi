@@ -5,6 +5,7 @@
 #include <c2s/leave_chat.hpp>
 #include <c2s/log_off_to_lobby.hpp>
 #include <c2s/send_chat_msg.hpp>
+#include <c2s/send_whisper.hpp>
 #include <c2s/friend_add.hpp>
 #include <c2s/friend_remove.hpp>
 #include <ingame_state_protocol.hpp>
@@ -30,6 +31,8 @@ received_packet::packet_ptr ingame_state_recv_packet_factory::construct(const st
       return std::make_unique<log_off_to_lobby>(transitioner_, my_environment_);
     case ingame_state_protocol::send_chat_msg:
       return std::make_unique<send_chat_msg>(bd, my_environment_);
+    case ingame_state_protocol::send_whisper:
+      return std::make_unique<send_whisper>(bd, my_environment_);
     case ingame_state_protocol::friend_add:
       return std::make_unique<friend_add>(bd, my_environment_);
     case ingame_state_protocol::friend_remove:
