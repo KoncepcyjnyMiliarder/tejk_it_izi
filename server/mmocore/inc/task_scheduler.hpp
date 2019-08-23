@@ -17,7 +17,7 @@ class task_scheduler
       public:
 
         template<typename Task>
-        postponed_task(boost::posix_time::time_duration& time_from_now, boost::asio::strand& sync_strand_, Task&& task)
+        postponed_task(const boost::posix_time::time_duration& time_from_now, boost::asio::strand& sync_strand_, Task&& task)
           : timer_to_action_(sync_strand_.get_io_service(), time_from_now)
         {
           timer_to_action_.async_wait(sync_strand_.wrap(std::forward < Task && > (task)));
@@ -40,7 +40,7 @@ class task_scheduler
     }
 
     template<typename Task>
-    std::unique_ptr<postponed_task> postpone_task(Task&& task, boost::posix_time::time_duration& time_from_now)
+    std::unique_ptr<postponed_task> postpone_task(Task&& task, const boost::posix_time::time_duration& time_from_now)
     {
       return std::make_unique<postponed_task>(time_from_now, sync_strand_, std::forward < Task && > (task));
     }
