@@ -5,14 +5,13 @@
 class friend_controller
 {
 
-    tii_entity_representative::reference my_representative_;
-    friend_system& fs_;
+  tii_entity_representative::reference my_representative_;
+  friend_system& fs_;
 
-  public:
+public:
+  friend_controller(tii_entity_representative::reference my_representative, friend_system& fs);
+  ~friend_controller();
 
-    friend_controller(tii_entity_representative::reference my_representative, friend_system& fs);
-    ~friend_controller();
-
-    void on_req_friend_add(const std::string& name);
-    void on_req_friend_remove(const std::string& name);
+  void on_req_friend_add(const std::string& name);
+  void on_req_friend_remove(const std::string& name);
 };

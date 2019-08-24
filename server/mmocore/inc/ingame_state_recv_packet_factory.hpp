@@ -6,11 +6,11 @@
 
 class ingame_state_recv_packet_factory
 {
-    state_transitioner& transitioner_;
-    user_environment& my_environment_;
+  state_transitioner& transitioner_;
+  user_environment& my_environment_;
 
-  public:
-
-    ingame_state_recv_packet_factory(state_transitioner& transitioner, user_environment& my_environment);
-    received_packet::packet_ptr construct(const std::array<char, 2048>& data, unsigned size);
+public:
+  ingame_state_recv_packet_factory(state_transitioner& transitioner,
+                                   user_environment& my_environment);
+  received_packet::packet_ptr construct(const std::array<char, 2048>& data, unsigned size);
 };

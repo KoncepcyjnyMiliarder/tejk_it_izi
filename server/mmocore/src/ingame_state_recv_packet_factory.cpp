@@ -1,22 +1,24 @@
-#include <ingame_state_recv_packet_factory.hpp>
 #include <binary_deserializer.hpp>
-#include <null_received_packet.hpp>
+#include <c2s/friend_add.hpp>
+#include <c2s/friend_remove.hpp>
 #include <c2s/join_chat.hpp>
 #include <c2s/leave_chat.hpp>
 #include <c2s/log_off_to_lobby.hpp>
 #include <c2s/send_chat_msg.hpp>
 #include <c2s/send_whisper.hpp>
-#include <c2s/friend_add.hpp>
-#include <c2s/friend_remove.hpp>
 #include <ingame_state_protocol.hpp>
+#include <ingame_state_recv_packet_factory.hpp>
+#include <null_received_packet.hpp>
 
-ingame_state_recv_packet_factory::ingame_state_recv_packet_factory(state_transitioner& transitioner, user_environment& my_environment)
-  : transitioner_(transitioner),
-    my_environment_(my_environment)
+ingame_state_recv_packet_factory::ingame_state_recv_packet_factory(state_transitioner& transitioner,
+                                                                   user_environment& my_environment)
+  : transitioner_(transitioner)
+  , my_environment_(my_environment)
 {
 }
 
-received_packet::packet_ptr ingame_state_recv_packet_factory::construct(const std::array<char, 2048>& data, unsigned size)
+received_packet::packet_ptr
+ingame_state_recv_packet_factory::construct(const std::array<char, 2048>& data, unsigned size)
 {
   binary_deserializer bd(data.data(), size);
   ingame_state_protocol::to_server_packet_opcodes opcode;

@@ -12,5 +12,6 @@ enum class character_creation_fail_reason
 
 namespace lobby_packet_constructors
 {
-unsigned character_creation_fail(std::array<char, 2048>& buffer_to_fill, character_creation_fail_reason reason);
+unsigned character_creation_fail(std::array<char, 2048>& buffer_to_fill,
+                                 character_creation_fail_reason reason);
 }

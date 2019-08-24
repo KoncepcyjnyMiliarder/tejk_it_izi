@@ -20,4 +20,4 @@ enum to_server_packet_opcodes : char
   log_off,
 };
 
-}
+} // namespace lobby_state_protocol

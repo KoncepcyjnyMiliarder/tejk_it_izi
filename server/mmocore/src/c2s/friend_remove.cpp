@@ -6,7 +6,8 @@ friend_remove::friend_remove(binary_deserializer& bd, user_environment& my_envir
   bd >> friend_name_;
 }
 
-void friend_remove::execute_associated_action()
+void
+friend_remove::execute_associated_action()
 {
   my_environment_.friends_controller_.on_req_friend_remove(friend_name_);
 }

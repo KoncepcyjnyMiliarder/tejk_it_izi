@@ -1,26 +1,23 @@
 #pragma once
 
-#include <net_socket.hpp>
 #include <memory>
+#include <net_socket.hpp>
 
-class net_session
-  : public net_socket::recv_completion_handler
+class net_session : public net_socket::recv_completion_handler
 {
-  protected:
+protected:
+  std::shared_ptr<net_socket> my_sock_;
 
-    std::shared_ptr<net_socket> my_sock_;
+public:
+  using session_ptr = std::shared_ptr<net_session>;
 
-  public:
+  net_session(std::shared_ptr<net_socket> sock);
 
-    using session_ptr = std::shared_ptr<net_session>;
+  void do_recv();
 
-    net_session(std::shared_ptr<net_socket> sock);
+  void send_to_client(const net_socket::buffer& data, unsigned size);
 
-    void do_recv();
+  virtual ~net_session() = default;
 
-    void send_to_client(const net_socket::buffer& data, unsigned size);
-
-    virtual ~net_session() = default;
-
-    virtual void force_close() = 0;
+  virtual void force_close() = 0;
 };

@@ -6,7 +6,8 @@ send_chat_msg::send_chat_msg(binary_deserializer& bd, user_environment& my_envir
   bd >> chatroom_name_ >> message_;
 }
 
-void send_chat_msg::execute_associated_action()
+void
+send_chat_msg::execute_associated_action()
 {
   my_environment_.chat_controller_.broadcast_message(chatroom_name_, message_);
 }

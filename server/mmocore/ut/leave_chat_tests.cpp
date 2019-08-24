@@ -1,8 +1,8 @@
-#include <gtest/gtest.h>
 #include <binary_serializer.hpp>
-#include <c2s/leave_chat.hpp>
 #include <c2s/join_chat.hpp>
+#include <c2s/leave_chat.hpp>
 #include <fake_user_environment.hpp>
+#include <gtest/gtest.h>
 #include <ingame_state_protocol.hpp>
 
 TEST(leave_chat, construction)
@@ -41,7 +41,7 @@ TEST(leave_chat, world_state_after_executing_packet)
   std::shared_ptr<fake_net_session> my_session = pair_of_mocks.second;
   auto& sock_queue = my_session->get_sock()->get_packets_sent_to_client();
 
-  //first, let's join 2 chatrooms
+  // first, let's join 2 chatrooms
   {
     net_socket::buffer buf;
     binary_serializer bs(buf);
@@ -57,7 +57,7 @@ TEST(leave_chat, world_state_after_executing_packet)
   binary_serializer bs(buf);
   bs << std::string("some_room_name") << std::string("some_other_room");
   binary_deserializer incoming_stream(buf.data(), bs.get_current_size());
-  //leave "some_room_name"
+  // leave "some_room_name"
   leave_chat(incoming_stream, my_env).execute_associated_action();
   {
     ASSERT_EQ(1, sock_queue.size());
@@ -72,7 +72,7 @@ TEST(leave_chat, world_state_after_executing_packet)
     EXPECT_EQ("KoncepcyjnyMiliarder", user);
     EXPECT_EQ(1, my_env.chat_controller_.count_of_chatrooms_im_in());
   }
-  //leave "some_other_room"
+  // leave "some_other_room"
   leave_chat(incoming_stream, my_env).execute_associated_action();
   {
     ASSERT_EQ(1, sock_queue.size());

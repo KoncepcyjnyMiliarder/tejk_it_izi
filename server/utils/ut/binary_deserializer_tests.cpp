@@ -1,5 +1,5 @@
-#include <gtest/gtest.h>
 #include <binary_deserializer.hpp>
+#include <gtest/gtest.h>
 
 TEST(binary_deserializer, initial_test)
 {
@@ -54,7 +54,7 @@ TEST(binary_deserializer, serialize_pod_struct)
     short c;
     char b;
   };
-  some_pod expected{ 0x44332211, 0x2211, 0x33 };
+  some_pod expected{0x44332211, 0x2211, 0x33};
   some_pod actual;
   bd >> actual;
   EXPECT_EQ(expected.a, actual.a);
@@ -64,7 +64,9 @@ TEST(binary_deserializer, serialize_pod_struct)
 
 TEST(binary_deserializer, serialzie_string)
 {
-  std::string data("\x08\x00\x00\x00""dupadupa", 12);
+  std::string data("\x08\x00\x00\x00"
+                   "dupadupa",
+                   12);
   binary_deserializer bd(data);
   std::string text;
   EXPECT_NO_THROW(bd >> text);
@@ -84,7 +86,11 @@ TEST(binary_deserializer, empty_string)
 
 TEST(binary_deserializer, serialzie_two_strings)
 {
-  std::string data("\x08\x00\x00\x00""dupadupa""\x0B\x00\x00\x00""something33", 27);
+  std::string data("\x08\x00\x00\x00"
+                   "dupadupa"
+                   "\x0B\x00\x00\x00"
+                   "something33",
+                   27);
   binary_deserializer bd(data);
   std::string dupadupa, something;
   EXPECT_NO_THROW(bd >> dupadupa);
@@ -95,7 +101,12 @@ TEST(binary_deserializer, serialzie_two_strings)
 
 TEST(binary_deserializer, serialzie_text_with_pods)
 {
-  std::string data("\x08\x00\x00\x00""dupadupa""\x01\x02\x03\x04\x05""\x0B\x00\x00\x00""something33USELESS_DATA", 46);
+  std::string data("\x08\x00\x00\x00"
+                   "dupadupa"
+                   "\x01\x02\x03\x04\x05"
+                   "\x0B\x00\x00\x00"
+                   "something33USELESS_DATA",
+                   46);
   binary_deserializer bd(data);
   std::string dupadupa, something;
   int a;
@@ -136,10 +147,7 @@ TEST(binary_deserializer, custom_struct_manipulator)
 
   struct test_manipulator_rewind
   {
-    void operator()(const std::string& data, std::size_t& current_pos)
-    {
-      current_pos = 0u;
-    }
+    void operator()(const std::string& data, std::size_t& current_pos) { current_pos = 0u; }
   };
 
   char c1, c2;
@@ -152,11 +160,12 @@ TEST(binary_deserializer, custom_struct_manipulator)
 
 namespace
 {
-void test_function(const std::string& data, std::size_t& current_pos)
+void
+test_function(const std::string& data, std::size_t& current_pos)
 {
   current_pos = 0u;
 }
-}
+} // namespace
 
 TEST(binary_deserializer, custom_function_manipulator)
 {
@@ -178,12 +187,8 @@ TEST(binary_deserializer, custom_lambda_manipulator)
 
   char c1, c2;
   int val2;
-  bd >> c1 >> c2 >>
-     [](const std::string & data, std::size_t& current_pos)
-  {
-    current_pos = 0u;
-  }
-      >> val2;
+  bd >> c1 >> c2 >> [](const std::string& data, std::size_t& current_pos) { current_pos = 0u; } >>
+    val2;
   EXPECT_EQ(0x11, c1);
   EXPECT_EQ(0x22, c2);
   EXPECT_EQ(0x44332211, val2);

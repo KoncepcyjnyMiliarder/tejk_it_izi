@@ -14,4 +14,4 @@ enum to_server_packet_opcodes : char
   loginserver_keys,
 };
 
-}
+} // namespace preauth_state_protocol

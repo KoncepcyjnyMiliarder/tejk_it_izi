@@ -1,13 +1,13 @@
-#include <gtest/gtest.h>
-#include <binary_serializer.hpp>
 #include <binary_deserializer.hpp>
+#include <binary_serializer.hpp>
 #include <c2s/request_character_select.hpp>
-#include <s2c/character_selected.hpp>
+#include <fake_database_facade.hpp>
+#include <fake_logger.hpp>
 #include <fake_net_session.hpp>
 #include <fake_net_socket.hpp>
-#include <fake_logger.hpp>
-#include <fake_database_facade.hpp>
+#include <gtest/gtest.h>
 #include <lobby_state_protocol.hpp>
+#include <s2c/character_selected.hpp>
 #include <state_transitioner.hpp>
 #include <world.hpp>
 
@@ -25,7 +25,8 @@ TEST(request_character_select, construction)
   world universe(db);
   account_data acc_data = db.get_account_data("krzysztof");
   lobby_character::lobby_character_list lobby_chars = db.get_lobby_chars(acc_data.uid);
-  EXPECT_NO_THROW(request_character_select(incoming_stream, session, transitioner, universe, log, lobby_chars, db, acc_data));
+  EXPECT_NO_THROW(request_character_select(
+    incoming_stream, session, transitioner, universe, log, lobby_chars, db, acc_data));
 }
 
 TEST(request_character_select, throw_on_missing_nickname)
@@ -42,7 +43,9 @@ TEST(request_character_select, throw_on_missing_nickname)
   world universe(db);
   account_data acc_data = db.get_account_data("krzysztof");
   lobby_character::lobby_character_list lobby_chars = db.get_lobby_chars(acc_data.uid);
-  EXPECT_THROW(request_character_select(incoming_stream, session, transitioner, universe, log, lobby_chars, db, acc_data), std::underflow_error);
+  EXPECT_THROW(request_character_select(
+                 incoming_stream, session, transitioner, universe, log, lobby_chars, db, acc_data),
+               std::underflow_error);
 }
 
 TEST(request_character_select, send_char_selected_packet)
@@ -59,7 +62,9 @@ TEST(request_character_select, send_char_selected_packet)
   state_transitioner transitioner;
   account_data acc_data = db.get_account_data("krzysztof");
   lobby_character::lobby_character_list lobby_chars = db.get_lobby_chars(acc_data.uid);
-  request_character_select(incoming_stream, session, transitioner, universe, log, lobby_chars, db, acc_data).execute_associated_action();
+  request_character_select(
+    incoming_stream, session, transitioner, universe, log, lobby_chars, db, acc_data)
+    .execute_associated_action();
 
   auto& sock_queue = socket->get_packets_sent_to_client();
   ASSERT_EQ(1, sock_queue.size());

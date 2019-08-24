@@ -1,7 +1,7 @@
-#include <gtest/gtest.h>
 #include <c2s/request_lobby_log_off.hpp>
-#include <fake_net_socket.hpp>
 #include <fake_net_session.hpp>
+#include <fake_net_socket.hpp>
+#include <gtest/gtest.h>
 
 TEST(request_lobby_log_off, construction)
 {

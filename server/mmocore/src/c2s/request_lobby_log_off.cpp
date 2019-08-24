@@ -5,7 +5,8 @@ request_lobby_log_off::request_lobby_log_off(std::shared_ptr<net_session> my_ses
 {
 }
 
-void request_lobby_log_off::execute_associated_action()
+void
+request_lobby_log_off::execute_associated_action()
 {
   my_session_->force_close();
 }

@@ -6,7 +6,8 @@ send_whisper::send_whisper(binary_deserializer& bd, user_environment& my_environ
   bd >> recipient_ >> message_;
 }
 
-void send_whisper::execute_associated_action()
+void
+send_whisper::execute_associated_action()
 {
   my_environment_.chat_controller_.send_whisper(recipient_, message_);
 }

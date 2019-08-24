@@ -1,8 +1,8 @@
-#include <gtest/gtest.h>
 #include <binary_serializer.hpp>
 #include <c2s/join_chat.hpp>
 #include <c2s/send_chat_msg.hpp>
 #include <fake_user_environment.hpp>
+#include <gtest/gtest.h>
 #include <ingame_state_protocol.hpp>
 
 TEST(send_chat_msg, construction)
@@ -55,7 +55,7 @@ TEST(send_chat_msg, send_message_to_all_participants)
   my_env.chat_controller_.register_me(room_name);
 
   send_chat_msg(incoming_stream, my_env).execute_associated_action();
-  //check, if my account received message
+  // check, if my account received message
   {
     auto& sock_queue = my_session->get_sock()->get_packets_sent_to_client();
     ASSERT_EQ(2, sock_queue.size());
@@ -71,7 +71,7 @@ TEST(send_chat_msg, send_message_to_all_participants)
     EXPECT_EQ("KoncepcyjnyMiliarder", user);
     EXPECT_EQ("no eloszki pysiaczki", msg);
   }
-  //check, if other participant received message
+  // check, if other participant received message
   {
     auto& sock_queue = other_session->get_sock()->get_packets_sent_to_client();
     ASSERT_EQ(3, sock_queue.size());
@@ -88,5 +88,4 @@ TEST(send_chat_msg, send_message_to_all_participants)
     EXPECT_EQ("KoncepcyjnyMiliarder", user);
     EXPECT_EQ("no eloszki pysiaczki", msg);
   }
-
 }

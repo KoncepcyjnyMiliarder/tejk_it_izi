@@ -9,5 +9,7 @@ struct chatroom
   std::unordered_set<tii_entity_representative::const_pointer> participants;
 
   chatroom(const std::string& name)
-    : room_name(name) {}
+    : room_name(name)
+  {
+  }
 };
