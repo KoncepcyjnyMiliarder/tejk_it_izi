@@ -13,7 +13,7 @@ main()
   {
     psql_facade psql_boi("test_user", "aaa", "test_db");
     boost::asio::io_service io_service;
-    boost::asio::strand sync_strand(io_service);
+    boost::asio::strand<boost::asio::io_context::executor_type> sync_strand = boost::asio::make_strand(io_service);
     auto ep = boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), 6112);
     boost::asio::deadline_timer timer(io_service, boost::posix_time::seconds(0));
     tejk_it_izi and_worry_not(psql_boi,

@@ -435,7 +435,7 @@ int main()
     return 1;
   }
   printf("connected \\o/\n");
-  boost::asio::strand sync_strand(io_service);
+  boost::asio::strand<boost::asio::io_context::executor_type> sync_strand = boost::asio::make_strand(io_service);
   std::shared_ptr<boost_socket> socket(std::make_unique<boost_socket>(std::move(mysock), sync_strand));
   std::thread([&socket]
   {

@@ -29,7 +29,7 @@ class tejk_it_izi : private client_acceptor::accept_completion_handler
   std::unique_ptr<client_acceptor> acceptor_;
 
   boost::asio::deadline_timer& timer_;
-  boost::asio::strand& sync_strand_;
+  boost::asio::strand<boost::asio::io_context::executor_type>& sync_strand_;
   task_scheduler scheduler_;
   std::chrono::time_point<std::chrono::steady_clock> start_;
 
@@ -46,7 +46,7 @@ public:
   tejk_it_izi(database_facade& db,
               std::unique_ptr<client_acceptor> acceptor,
               boost::asio::deadline_timer& timer,
-              boost::asio::strand& sync_strand,
+              boost::asio::strand<boost::asio::io_context::executor_type>& sync_strand,
               boost::asio::io_service& io_service);
 
   void run();

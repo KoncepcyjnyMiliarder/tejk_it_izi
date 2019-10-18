@@ -10,7 +10,7 @@ class asynchronous_database_adapter
   task_scheduler& game_loop_scheduler_; // hmmmm do i really need to synchronize completion
                                         // handlers with the game loop? they sleep during db
                                         // operation so...
-  boost::asio::strand database_task_strand_;
+  boost::asio::strand<boost::asio::io_context::executor_type> database_task_strand_;
   task_scheduler database_task_scheduler_;
 
 public:
@@ -19,7 +19,7 @@ public:
                                 boost::asio::io_service& io_service)
     : synchronous_db_(synchronous_db)
     , game_loop_scheduler_(game_loop_scheduler)
-    , database_task_strand_(io_service)
+    , database_task_strand_(boost::asio::make_strand(io_service))
     , database_task_scheduler_(database_task_strand_)
   {
   }
