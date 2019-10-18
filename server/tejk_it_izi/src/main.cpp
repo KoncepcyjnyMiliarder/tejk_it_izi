@@ -17,7 +17,7 @@ main()
     auto ep = boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), 6112);
     boost::asio::deadline_timer timer(io_service, boost::posix_time::seconds(0));
     tejk_it_izi and_worry_not(psql_boi,
-                              std::make_unique<boost_acceptor>(io_service, ep, sync_strand),
+                              std::make_unique<boost_acceptor>(ep, sync_strand),
                               timer,
                               sync_strand,
                               io_service);

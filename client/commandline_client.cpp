@@ -407,7 +407,8 @@ void handle_lobby_command(char command, std::shared_ptr<boost_socket> socket)
 int main()
 {
   boost::asio::io_service io_service;
-  boost::asio::ip::tcp::socket mysock(io_service);
+  boost::asio::strand<boost::asio::io_context::executor_type> sync_strand = boost::asio::make_strand(io_service);
+  boost::asio::ip::tcp::socket mysock(sync_strand);
   boost::system::error_code ec;
   char answer{};
   while (answer != 'l' && answer != 'r')
@@ -435,8 +436,7 @@ int main()
     return 1;
   }
   printf("connected \\o/\n");
-  boost::asio::strand<boost::asio::io_context::executor_type> sync_strand = boost::asio::make_strand(io_service);
-  std::shared_ptr<boost_socket> socket(std::make_unique<boost_socket>(std::move(mysock), sync_strand));
+  std::shared_ptr<boost_socket> socket(std::make_unique<boost_socket>(std::move(mysock)));
   std::thread([&socket]
   {
     net_socket::buffer sendbuf;
