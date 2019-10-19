@@ -6,6 +6,8 @@ set(MOCKS
   fake_user_environment.hpp
   mock_friend_component.hpp
   fake_user_environment.cpp
+  fake_database_facade.cpp
+  fake_database_facade.hpp
 )
 
 set(TESTS

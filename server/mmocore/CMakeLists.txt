@@ -12,6 +12,8 @@ set(SOURCES
   src/null_received_packet.cpp
   src/world.cpp
   src/tii_entity_representative.cpp
+  src/postgresql_db.cpp
+  src/psql_facade.cpp
 )
 
 set(INCLUDES
@@ -38,6 +40,11 @@ set(INCLUDES
   inc/user_environment.hpp
   inc/tii_entity_representative.hpp
   inc/asynchronous_database_adapter.hpp
+  inc/lobby_character.hpp
+  inc/account_data.hpp
+  inc/database_facade.hpp
+  inc/postgresql_db.hpp
+  inc/psql_facade.hpp
 )
 
 set(PACKETS_S2C
@@ -137,7 +144,7 @@ SOURCE_GROUP(chat_system FILES ${SOURCES_CHAT_SYSTEM})
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES} ${INCLUDES} ${PACKETS_S2C} ${PACKETS_C2S} ${SOURCES_FRIEND_SYSTEM} ${SOURCES_CHAT_SYSTEM})
 target_include_directories(${PROJECT_NAME} PUBLIC inc)
-target_link_libraries(${PROJECT_NAME} PUBLIC net_core utils database_facade)
+target_link_libraries(${PROJECT_NAME} PUBLIC net_core utils pqxx_static)
 
 if(BUILD_TEJK_IT_IZI_TESTS)
 add_subdirectory(ut)
