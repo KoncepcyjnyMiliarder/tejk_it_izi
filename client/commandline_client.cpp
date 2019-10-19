@@ -36,7 +36,6 @@ class my_recv_completion_handler
 
     virtual void on_recv(const net_socket::buffer& data, unsigned size) override
     {
-      my_sock_->async_recv(*this);
       binary_deserializer bd(data.data(), size);
       switch(cs)
       {
@@ -267,6 +266,7 @@ class my_recv_completion_handler
           }
           break;
       }
+	  my_sock_->async_recv(*this);
     }
 
     virtual void on_error() override
