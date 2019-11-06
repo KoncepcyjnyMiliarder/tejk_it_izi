@@ -11,7 +11,7 @@ struct serializer_skip
   {
   }
 
-  void operator()(const char* data, std::size_t& current_pos) { current_pos += to_skip_; }
+  void operator()(const char*, std::size_t& current_pos) { current_pos += to_skip_; }
 
 private:
   std::size_t to_skip_;

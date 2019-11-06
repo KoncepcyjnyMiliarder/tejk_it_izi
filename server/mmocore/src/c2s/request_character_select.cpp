@@ -13,10 +13,10 @@ request_character_select::request_character_select(
   account_data& acc_data,
   asynchronous_database_adapter& async_db)
   : my_session_(my_session)
-  , transitioner_(transitioner)
-  , world_(universe)
-  , logger_(logger)
   , lobby_chars_(lobby_chars)
+  , transitioner_(transitioner)
+  , logger_(logger)
+  , world_(universe)
   , db_(db)
   , acc_data_(acc_data)
   , async_db_(async_db)
