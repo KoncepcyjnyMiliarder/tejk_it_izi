@@ -13,7 +13,6 @@ enum to_client_packet_opcodes : char
 
 enum to_server_packet_opcodes : char
 {
-  something_unused,
   select_character,
   create_character,
   delete_character,

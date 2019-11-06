@@ -53,7 +53,7 @@ chat_system::register_me(tii_entity_representative::const_reference my_represent
                          std::unique_ptr<chat_backend> my_backend)
 {
   assert(entities_.count(&my_representative) == 0);
-  entities_.emplace(&my_representative, entity_data{std::move(my_backend)});
+  entities_.emplace(&my_representative, entity_data{std::move(my_backend), {}});
 }
 
 void
