@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.11)
 
+include(${PROJECT_SOURCE_DIR}/set_warning_level.cmake)
+
 project(mmocore)
 
 set(SOURCES
@@ -145,6 +147,7 @@ SOURCE_GROUP(chat_system FILES ${SOURCES_CHAT_SYSTEM})
 add_library(${PROJECT_NAME} STATIC ${SOURCES} ${INCLUDES} ${PACKETS_S2C} ${PACKETS_C2S} ${SOURCES_FRIEND_SYSTEM} ${SOURCES_CHAT_SYSTEM})
 target_include_directories(${PROJECT_NAME} PUBLIC inc)
 target_link_libraries(${PROJECT_NAME} PUBLIC net_core utils pqxx_static)
+set_warning_level(${PROJECT_NAME})
 
 if(BUILD_TEJK_IT_IZI_TESTS)
 add_subdirectory(ut)
