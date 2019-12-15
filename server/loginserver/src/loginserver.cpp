@@ -25,8 +25,8 @@ loginserver::do_accept_gs()
 
 loginserver::loginserver(boost::asio::ip::tcp::acceptor& client_acceptor,
                          boost::asio::ip::tcp::acceptor& gs_acceptor)
-  : client_acceptor_(std::move(client_acceptor))
-  , gs_acceptor_(std::move(gs_acceptor))
+  : client_acceptor_(client_acceptor)
+  , gs_acceptor_(gs_acceptor)
   , client_socket_(client_acceptor_.get_executor())
   , gs_socket_(gs_acceptor_.get_executor())
 {

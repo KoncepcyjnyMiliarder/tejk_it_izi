@@ -10,7 +10,7 @@ main()
 	  auto gs_ls_ep = boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), 32132);
 	  boost::asio::ip::tcp::acceptor login_acceptor(ioc, login_ep);
 	  boost::asio::ip::tcp::acceptor gs_ls_acceptor(ioc, gs_ls_ep);
-	  loginserver ls(std::move(login_acceptor), std::move(gs_ls_acceptor));
+	  loginserver ls(login_acceptor, gs_ls_acceptor);
 	  ls.run();
 	  ioc.run();
   }
