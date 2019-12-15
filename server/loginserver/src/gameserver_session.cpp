@@ -43,10 +43,10 @@ gameserver_session::do_recv_data(unsigned expected_len)
 void
 gameserver_session::request_kick_player(const std::string& name)
 {
-	std::array<char, 2048> reply;
-	binary_serializer bs(reply);
-	bs << gs_ls_protocol::to_gs_packet_opcodes::kick_user << name;
-	write(reply, bs.get_current_size());
+  std::array<char, 2048> reply;
+  binary_serializer bs(reply);
+  bs << gs_ls_protocol::to_gs_packet_opcodes::kick_user << name;
+  write(reply, bs.get_current_size());
 }
 
 void

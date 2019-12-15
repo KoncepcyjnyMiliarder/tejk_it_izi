@@ -3,7 +3,7 @@
 namespace login_protocol
 {
 
-enum class  to_client_packet_opcodes : char
+enum class to_client_packet_opcodes : char
 {
   account_already_online,
   here_have_a_cookie,

@@ -16,7 +16,7 @@ class gameserver_session : public std::enable_shared_from_this<gameserver_sessio
 
   void do_recv_header();
   void do_recv_data(unsigned expected_len);
-  virtual void request_kick_player(const std::string & name) override;
+  virtual void request_kick_player(const std::string& name) override;
   void write(const std::array<char, 2048>& data, unsigned size);
 
   void handle_packet(unsigned len);
