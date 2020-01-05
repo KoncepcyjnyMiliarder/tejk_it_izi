@@ -9,8 +9,13 @@ find_library(PQXX_LIBRARY_RELEASE NAMES pqxx libpqxx)
 find_library(PQXX_LIBRARY_DEBUG NAMES pqxxd libpqxxd)
 find_path(PQXX_INCLUDE_DIRS NAMES pqxx/pqxx)
 
+file(STRINGS "${PQXX_INCLUDE_DIRS}/pqxx/version.hxx" PQXX_VERSION_LINE REGEX "^#[ \t]*define PQXX_VERSION \"[^\"]*\"$")
+string(REGEX REPLACE "^#[ \t]*define PQXX_VERSION \"(.*)\"$" "\\1" PQXX_VERSION "${PQXX_VERSION_LINE}")
+
 select_library_configurations(PQXX)
-find_package_handle_standard_args(PQXX REQUIRED_VARS PQXX_LIBRARY PQXX_INCLUDE_DIRS)
+find_package_handle_standard_args(PQXX
+	REQUIRED_VARS PQXX_LIBRARY PQXX_INCLUDE_DIRS
+	VERSION_VAR PQXX_VERSION)
 
 if(NOT TARGET PQXX::PQXX)
 	add_library(PQXX::PQXX UNKNOWN IMPORTED)
