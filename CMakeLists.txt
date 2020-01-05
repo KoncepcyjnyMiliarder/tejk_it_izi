@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.11)
 
 set (CMAKE_CXX_STANDARD 17)
 
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
 project(tejk_it_izi)
 #build app test
 set(BUILD_TEJK_IT_IZI_TESTS OFF CACHE BOOL "build tests of the application modules")
@@ -13,7 +15,6 @@ set(gtest_force_shared_crt ON CACHE BOOL "force shared crt for windows" FORCE)
 #variables for postgresql connector
 set(SKIP_BUILD_TEST TRUE)
 set(BUILD_TEST FALSE)
-set(SKIP_PQXX_SHARED TRUE)
 
 include(FetchContent)
 
@@ -26,24 +27,12 @@ FetchContent_Declare(
   GIT_TAG        release-1.8.0
 )
 
-FetchContent_Declare(
-  libpqxx
-  GIT_REPOSITORY https://github.com/jtv/libpqxx.git
-  GIT_TAG        6.4.4 #later versions force c++17
-)
-
 if(BUILD_TEJK_IT_IZI_TESTS)
 FetchContent_GetProperties(googletest)
 if(NOT googletest_POPULATED)
   FetchContent_Populate(googletest)
   add_subdirectory(${googletest_SOURCE_DIR} ${googletest_BINARY_DIR})
 endif()
-endif()
-
-FetchContent_GetProperties(libpqxx)
-if(NOT libpqxx_POPULATED)
-  FetchContent_Populate(libpqxx)
-  add_subdirectory(${libpqxx_SOURCE_DIR} ${libpqxx_BINARY_DIR})
 endif()
 
 add_subdirectory(server)

@@ -6,6 +6,7 @@
 struct gameserver_write_base
 {
   virtual void request_kick_player(const std::string& name) = 0;
+  virtual ~gameserver_write_base() = default;
 };
 
 struct gameserver
